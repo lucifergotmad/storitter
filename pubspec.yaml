@@ -46,6 +46,7 @@ dependencies:
   floor: ^1.4.1
   rxdart: ^0.27.7
   mockito: ^5.4.0
+  go_router: ^6.5.2
 
 dev_dependencies:
   flutter_test:
