@@ -30,7 +30,7 @@ class AppRouter {
       errorBuilder: (context, state) => const ErrorScreen(),
       redirect: (context, state) {
         if (state.location == "/") {
-          return "/login";
+          return "/register";
         }
         return null;
       });

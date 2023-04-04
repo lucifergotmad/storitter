@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:storitter/generated/assets.dart';
+import 'package:storitter/widgets/password_field.dart';
+import 'package:storitter/widgets/storitter_text_field.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -10,7 +13,7 @@ class LoginScreen extends StatelessWidget {
       resizeToAvoidBottomInset: true,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
+          padding: const EdgeInsets.all(24),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -19,7 +22,7 @@ class LoginScreen extends StatelessWidget {
                   height: 300,
                   width: double.maxFinite,
                   child: Image.asset(
-                    Assets.imagesRegister,
+                    Assets.imagesLogin,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -46,21 +49,14 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(
                   height: 32,
                 ),
-                const TextField(
-                  decoration: InputDecoration(
-                    labelText: "Email",
-                    border: OutlineInputBorder(),
-                  ),
+                const StoritterTextField(
+                  label: "Email",
+                  icon: Icons.email,
                 ),
                 const SizedBox(
                   height: 16,
                 ),
-                const TextField(
-                  decoration: InputDecoration(
-                    labelText: "Password",
-                    border: OutlineInputBorder(),
-                  ),
-                ),
+                const PasswordField(),
                 const SizedBox(
                   height: 24,
                 ),
@@ -98,10 +94,15 @@ class LoginScreen extends StatelessWidget {
                               ?.copyWith(fontSize: 16),
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            context.go("/register");
+                          },
                           child: Text(
                             "Register",
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.blue),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(color: Colors.blue),
                           ),
                         )
                       ],
