@@ -4,9 +4,15 @@ import 'package:storitter/pages/error_screen.dart';
 import 'package:storitter/pages/home_screen.dart';
 import 'package:storitter/pages/login_screen.dart';
 import 'package:storitter/pages/register_screen.dart';
+import 'package:storitter/provider/app_provider.dart';
 
 class AppRouter {
+  final AppProvider appProvider;
+
+  AppRouter({required this.appProvider});
+
   late final GoRouter _router = GoRouter(
+      refreshListenable: appProvider,
       debugLogDiagnostics: true,
       routes: [
         GoRoute(
@@ -29,10 +35,13 @@ class AppRouter {
       ],
       errorBuilder: (context, state) => const ErrorScreen(),
       redirect: (context, state) {
-        if (state.location == "/") {
-          return "/register";
+        final isLoggedIn = appProvider.isLoggedIn;
+
+        if (isLoggedIn) {
+          return "/";
         }
-        return null;
+
+        return "/login";
       });
 
   GoRouter get router => _router;

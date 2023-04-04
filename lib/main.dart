@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:storitter/data/api/api_services.dart';
 import 'package:storitter/data/preferences/preferences_helper.dart';
+import 'package:storitter/provider/app_provider.dart';
 import 'package:storitter/provider/login_provider.dart';
 import 'package:storitter/provider/preferences_provider.dart';
 import 'package:storitter/provider/register_provider.dart';
@@ -12,6 +13,11 @@ import 'package:storitter/shared/locale.dart';
 import 'package:storitter/shared/theme.dart';
 
 final ApiServices _apiServices = ApiServices(client: Dio());
+final AppProvider _appProvider = AppProvider(
+  preferencesHelper: PreferencesHelper(
+    sharedPreferences: SharedPreferences.getInstance(),
+  ),
+);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,13 +43,16 @@ class MyApp extends StatelessWidget {
               sharedPreferences: SharedPreferences.getInstance(),
             ),
           ),
-        )
+        ),
+        Provider(
+          create: (_) => AppRouter(appProvider: _appProvider),
+        ),
       ],
       child: MaterialApp.router(
         title: 'Story App',
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        routerConfig: AppRouter().router,
+        routerConfig: AppRouter(appProvider: _appProvider).router,
         theme: ThemeData(primarySwatch: Colors.blue, textTheme: textTheme),
       ),
     );

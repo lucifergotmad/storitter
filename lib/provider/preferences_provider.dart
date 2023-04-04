@@ -18,4 +18,18 @@ class PreferencesProvider extends ChangeNotifier {
   void saveToken(String value) {
     preferencesHelper.saveToken(value);
   }
+
+  Future<bool> isLoggedIn() async {
+    bool isLoggedIn;
+
+    final String token = await preferencesHelper.token;
+
+    if (token.isEmpty) {
+      isLoggedIn = false;
+    } else {
+      isLoggedIn = true;
+    }
+
+    return isLoggedIn;
+  }
 }
