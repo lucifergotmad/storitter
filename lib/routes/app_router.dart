@@ -32,11 +32,6 @@ class AppRouter {
         if (state.location == "/") {
           return "/login";
         }
-
-        if(state.location == "/login") {
-          return "/register";
-        }
-
         return null;
       });
 

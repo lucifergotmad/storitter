@@ -7,7 +7,6 @@ import 'package:storitter/data/result_state.dart';
 class LoginProvider extends ChangeNotifier {
   final ApiServices apiServices;
 
-
   LoginProvider({required this.apiServices});
 
   late LoginResult _user;

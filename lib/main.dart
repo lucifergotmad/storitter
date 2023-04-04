@@ -9,6 +9,7 @@ import 'package:storitter/provider/preferences_provider.dart';
 import 'package:storitter/provider/register_provider.dart';
 import 'package:storitter/routes/app_router.dart';
 import 'package:storitter/shared/locale.dart';
+import 'package:storitter/shared/theme.dart';
 
 final ApiServices _apiServices = ApiServices(client: Dio());
 
@@ -39,13 +40,11 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp.router(
-        title: 'Flutter Demo',
+        title: 'Story App',
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         routerConfig: AppRouter().router,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+        theme: ThemeData(primarySwatch: Colors.blue, textTheme: textTheme),
       ),
     );
   }
