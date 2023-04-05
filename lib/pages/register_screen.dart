@@ -60,6 +60,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   height: 32,
                 ),
                 Form(
+                  autovalidateMode: AutovalidateMode.always,
                   key: _formKey,
                   child: Column(
                     children: [

@@ -19,19 +19,18 @@ class AppRouter {
           name: "home",
           path: "/",
           builder: (context, state) => const HomeScreen(),
-          routes: [
-            GoRoute(
-              name: "login",
-              path: "login",
-              builder: (context, state) => LoginScreen(),
-            ),
-            GoRoute(
-              name: "register",
-              path: "register",
-              builder: (context, state) => RegisterScreen(),
-            )
-          ],
+          routes: [],
         ),
+        GoRoute(
+          name: "login",
+          path: "/login",
+          builder: (context, state) => const LoginScreen(),
+        ),
+        GoRoute(
+          name: "register",
+          path: "/register",
+          builder: (context, state) => const RegisterScreen(),
+        )
       ],
       errorBuilder: (context, state) => const ErrorScreen(),
       redirect: (context, state) {
