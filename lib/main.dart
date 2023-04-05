@@ -12,11 +12,16 @@ import 'package:storitter/routes/app_router.dart';
 import 'package:storitter/shared/locale.dart';
 import 'package:storitter/shared/theme.dart';
 
-final ApiServices _apiServices = ApiServices(client: Dio());
+final ApiServices _apiServices = ApiServices(
+  client: Dio(),
+);
+
+final PreferencesHelper _preferencesHelper = PreferencesHelper(
+  sharedPreferences: SharedPreferences.getInstance(),
+);
+
 final AppProvider _appProvider = AppProvider(
-  preferencesHelper: PreferencesHelper(
-    sharedPreferences: SharedPreferences.getInstance(),
-  ),
+  preferencesHelper: _preferencesHelper,
 );
 
 void main() async {
@@ -32,7 +37,10 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => LoginProvider(apiServices: _apiServices),
+          create: (_) => LoginProvider(
+            apiServices: _apiServices,
+            preferencesHelper: _preferencesHelper,
+          ),
         ),
         ChangeNotifierProvider(
           create: (_) => RegisterProvider(apiServices: _apiServices),

@@ -19,7 +19,6 @@ class AppRouter {
           name: "home",
           path: "/",
           builder: (context, state) => const HomeScreen(),
-          routes: [],
         ),
         GoRoute(
           name: "login",
@@ -36,11 +35,15 @@ class AppRouter {
       redirect: (context, state) {
         final isLoggedIn = appProvider.isLoggedIn;
 
-        if (isLoggedIn) {
-          return "/";
+        if (!isLoggedIn && state.location != "/login") {
+          if (state.location == "/login") {
+            return "/login";
+          } else {
+            return "/register";
+          }
         }
 
-        return "/login";
+        return null;
       });
 
   GoRouter get router => _router;

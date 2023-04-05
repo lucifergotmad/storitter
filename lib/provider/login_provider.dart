@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:storitter/data/api/api_services.dart';
 import 'package:storitter/data/api/requests/login_request.dart';
 import 'package:storitter/data/api/responses/login_response.dart';
+import 'package:storitter/data/preferences/preferences_helper.dart';
 import 'package:storitter/data/result_state.dart';
 
 class LoginProvider extends ChangeNotifier {
   final ApiServices apiServices;
+  final PreferencesHelper preferencesHelper;
 
-  LoginProvider({required this.apiServices});
+  LoginProvider({required this.apiServices, required this.preferencesHelper});
 
   late LoginResult _user;
   late ResultState _state;
@@ -33,7 +35,9 @@ class LoginProvider extends ChangeNotifier {
       _state = ResultState.success;
       notifyListeners();
 
-      return _user = response.loginResult;
+      preferencesHelper.saveToken(response.loginResult.token);
+
+      return _message = "Login Succeeded";
     } catch (e) {
       _state = ResultState.error;
       notifyListeners();
