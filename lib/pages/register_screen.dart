@@ -4,12 +4,19 @@ import 'package:storitter/generated/assets.dart';
 import 'package:storitter/widgets/password_field.dart';
 import 'package:storitter/widgets/storitter_text_field.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
+
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  RegisterScreen({Key? key}) : super(key: key);
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -52,43 +59,50 @@ class RegisterScreen extends StatelessWidget {
                 const SizedBox(
                   height: 32,
                 ),
-                StoritterTextField(
-                  controller: _nameController,
-                  label: "Name",
-                  icon: Icons.account_box,
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                StoritterTextField(
-                  controller: _emailController,
-                  label: "Email",
-                  icon: Icons.email,
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                PasswordField(
-                  controller: _passwordController,
-                ),
-                const SizedBox(
-                  height: 24,
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    autofocus: true,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20),
-                      child: Text(
-                        "Register",
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelLarge
-                            ?.copyWith(color: Colors.white),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      StoritterTextField(
+                        controller: _nameController,
+                        label: "Name",
+                        icon: Icons.account_box,
                       ),
-                    ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      StoritterTextField.email(
+                        controller: _emailController,
+                        label: "Email",
+                        icon: Icons.email,
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      PasswordField(
+                        controller: _passwordController,
+                      ),
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          autofocus: true,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 20),
+                            child: Text(
+                              "Register",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelLarge
+                                  ?.copyWith(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(
