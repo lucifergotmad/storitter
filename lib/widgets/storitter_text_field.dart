@@ -26,7 +26,7 @@ class StoritterTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      validator: type == "Email" ? validateEmail : validateName,
+      validator: type == "Email" ? validateEmail : null,
       controller: controller,
       onTapOutside: (event) {
         FocusManager.instance.primaryFocus?.unfocus();

@@ -65,6 +65,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 Consumer<LoginProvider>(
                   builder: (context, provider, _) {
+                    if (provider.state == ResultState.success ||
+                        provider.state == ResultState.error) {
+                      _emailController.clear();
+                      _passwordController.clear();
+                    }
+
                     return Form(
                       autovalidateMode: AutovalidateMode.always,
                       key: _formKey,

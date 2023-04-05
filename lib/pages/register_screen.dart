@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:storitter/data/api/requests/register_request.dart';
+import 'package:storitter/data/result_state.dart';
 import 'package:storitter/generated/assets.dart';
+import 'package:storitter/provider/register_provider.dart';
 import 'package:storitter/widgets/password_field.dart';
 import 'package:storitter/widgets/storitter_text_field.dart';
 
@@ -60,53 +64,73 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 const SizedBox(
                   height: 32,
                 ),
-                Form(
-                  autovalidateMode: AutovalidateMode.always,
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      StoritterTextField(
-                        controller: _nameController,
-                        label: "Name",
-                        icon: Icons.account_box,
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      StoritterTextField.email(
-                        controller: _emailController,
-                        label: "Email",
-                        icon: Icons.email,
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      PasswordField(
-                        controller: _passwordController,
-                      ),
-                      const SizedBox(
-                        height: 24,
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          autofocus: true,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 20),
-                            child: Text(
-                              "Register",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelLarge
-                                  ?.copyWith(color: Colors.white),
+                Consumer<RegisterProvider>(builder: (context, provider, _) {
+                  if (provider.state == ResultState.success ||
+                      provider.state == ResultState.error) {
+                    _nameController.clear();
+                    _emailController.clear();
+                    _passwordController.clear();
+
+                    if (provider.state == ResultState.success) {
+                      context.go("/login");
+                    }
+                  }
+
+                  return Form(
+                    autovalidateMode: AutovalidateMode.always,
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        StoritterTextField(
+                          controller: _nameController,
+                          label: "Name",
+                          icon: Icons.account_box,
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        StoritterTextField.email(
+                          controller: _emailController,
+                          label: "Email",
+                          icon: Icons.email,
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        PasswordField(
+                          controller: _passwordController,
+                        ),
+                        const SizedBox(
+                          height: 24,
+                        ),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              final RegisterRequest request = RegisterRequest(
+                                name: _nameController.text,
+                                email: _emailController.text,
+                                password: _passwordController.text,
+                              );
+                              provider.registerUser(request);
+                            },
+                            autofocus: true,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 20),
+                              child: Text(
+                                "Register",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelLarge
+                                    ?.copyWith(color: Colors.white),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
+                      ],
+                    ),
+                  );
+                }),
                 const SizedBox(
                   height: 40,
                 ),

@@ -14,7 +14,7 @@ class ApiServices {
   Future<RegisterResponse> registerUser(RegisterRequest body) async {
     final response = await client.post(
       "$baseUrl/register",
-      data: body,
+      data: body.toJson(),
     );
 
     if (response.statusCode == 200 || response.statusCode == 201) {
@@ -25,7 +25,7 @@ class ApiServices {
   }
 
   Future<LoginResponse> loginUser(LoginRequest body) async {
-    final response = await client.post("$baseUrl/login", data: body);
+    final response = await client.post("$baseUrl/login", data: body.toJson());
 
     if (response.statusCode == 200) {
       return LoginResponse.fromJson(response.data);

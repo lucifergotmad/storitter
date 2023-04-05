@@ -8,7 +8,7 @@ class RegisterProvider extends ChangeNotifier {
 
   RegisterProvider({required this.apiServices});
 
-  late ResultState _state;
+  ResultState _state = ResultState.idle;
   late String _message;
 
   ResultState get state => _state;

@@ -12,6 +12,7 @@ class AppRouter {
   AppRouter({required this.appProvider});
 
   late final GoRouter _router = GoRouter(
+      initialLocation: "/",
       refreshListenable: appProvider,
       debugLogDiagnostics: true,
       routes: [
@@ -35,7 +36,7 @@ class AppRouter {
       redirect: (context, state) {
         final isLoggedIn = appProvider.isLoggedIn;
 
-        if (!isLoggedIn && state.location != "/login") {
+        if (!isLoggedIn) {
           if (state.location == "/login") {
             return "/login";
           } else {
@@ -43,7 +44,7 @@ class AppRouter {
           }
         }
 
-        return null;
+        return "/";
       });
 
   GoRouter get router => _router;

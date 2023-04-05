@@ -9,10 +9,13 @@ class LoginProvider extends ChangeNotifier {
   final ApiServices apiServices;
   final PreferencesHelper preferencesHelper;
 
-  LoginProvider({required this.apiServices, required this.preferencesHelper});
+  LoginProvider({
+    required this.apiServices,
+    required this.preferencesHelper,
+  });
 
   late LoginResult _user;
-  late ResultState _state;
+  ResultState _state = ResultState.idle;
   late String _message;
 
   LoginResult get user => _user;

@@ -15,15 +15,6 @@ String? validateEmail(String? value) {
       : null;
 }
 
-String? validateName(String? value) {
-  const pattern = "/^[A-Za-z]+\$/";
-  final regex = RegExp(pattern);
-
-  return value!.isNotEmpty && !regex.hasMatch(value)
-      ? "Enter a valid name"
-      : null;
-}
-
 String? validatePassword(String? value) {
   const pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}\$";
   final regex = RegExp(pattern);
