@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:storitter/data/api/requests/login_request.dart';
+import 'package:storitter/data/api/responses/login_response.dart';
 import 'package:storitter/data/result_state.dart';
 import 'package:storitter/generated/assets.dart';
+import 'package:storitter/provider/app_provider.dart';
 import 'package:storitter/provider/login_provider.dart';
 import 'package:storitter/widgets/password_field.dart';
 import 'package:storitter/widgets/storitter_text_field.dart';
@@ -23,6 +25,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final AppProvider appProvider = Provider.of<AppProvider>(context);
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: SafeArea(
@@ -93,14 +97,21 @@ class _LoginScreenState extends State<LoginScreen> {
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
-                              onPressed: () {
-                                final LoginRequest request = LoginRequest(
-                                  email: _emailController.text,
-                                  password: _passwordController.text,
-                                );
+                              onPressed: provider.state != ResultState.loading
+                                  ? () async {
+                                      final LoginRequest request = LoginRequest(
+                                        email: _emailController.text,
+                                        password: _passwordController.text,
+                                      );
 
-                                provider.loginUser(request);
-                              },
+                                      final LoginResult result =
+                                          await provider.loginUser(request);
+
+                                      appProvider
+                                        ..saveToken(result.token)
+                                        ..getToken();
+                                    }
+                                  : null,
                               autofocus: true,
                               child: Padding(
                                 padding:

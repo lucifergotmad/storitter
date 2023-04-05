@@ -6,7 +6,6 @@ import 'package:storitter/data/api/api_services.dart';
 import 'package:storitter/data/preferences/preferences_helper.dart';
 import 'package:storitter/provider/app_provider.dart';
 import 'package:storitter/provider/login_provider.dart';
-import 'package:storitter/provider/preferences_provider.dart';
 import 'package:storitter/provider/register_provider.dart';
 import 'package:storitter/routes/app_router.dart';
 import 'package:storitter/shared/locale.dart';
@@ -36,21 +35,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => _appProvider),
         ChangeNotifierProvider(
-          create: (_) => LoginProvider(
-            apiServices: _apiServices,
-            preferencesHelper: _preferencesHelper,
-          ),
+          create: (_) => LoginProvider(apiServices: _apiServices),
         ),
         ChangeNotifierProvider(
           create: (_) => RegisterProvider(apiServices: _apiServices),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => PreferencesProvider(
-            preferencesHelper: PreferencesHelper(
-              sharedPreferences: SharedPreferences.getInstance(),
-            ),
-          ),
         ),
         Provider(
           create: (_) => AppRouter(appProvider: _appProvider),

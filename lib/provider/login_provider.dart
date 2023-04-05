@@ -7,12 +7,8 @@ import 'package:storitter/data/result_state.dart';
 
 class LoginProvider extends ChangeNotifier {
   final ApiServices apiServices;
-  final PreferencesHelper preferencesHelper;
 
-  LoginProvider({
-    required this.apiServices,
-    required this.preferencesHelper,
-  });
+  LoginProvider({required this.apiServices});
 
   late LoginResult _user;
   ResultState _state = ResultState.idle;
@@ -38,9 +34,7 @@ class LoginProvider extends ChangeNotifier {
       _state = ResultState.success;
       notifyListeners();
 
-      preferencesHelper.saveToken(response.loginResult.token);
-
-      return _message = "Login Succeeded";
+      return _user = response.loginResult;
     } catch (e) {
       _state = ResultState.error;
       notifyListeners();

@@ -5,22 +5,34 @@ class AppProvider extends ChangeNotifier {
   PreferencesHelper preferencesHelper;
 
   AppProvider({required this.preferencesHelper}) {
-    loginStatus();
+    _loginStatus();
   }
 
   bool _isLoggedIn = false;
 
   bool get isLoggedIn => _isLoggedIn;
 
-  Future<void> loginStatus() async {
-    final String token = await preferencesHelper.token;
+  String _token = "";
 
-    if (token.isEmpty) {
+  String get token => _token;
+
+  void _loginStatus() async {
+    if (_token.isEmpty) {
       _isLoggedIn = false;
     } else {
       _isLoggedIn = true;
     }
 
     notifyListeners();
+  }
+
+  void getToken() async {
+    _token = await preferencesHelper.token;
+    notifyListeners();
+    _loginStatus();
+  }
+
+  void saveToken(String value) {
+    preferencesHelper.saveToken(value);
   }
 }
