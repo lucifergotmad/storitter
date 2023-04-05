@@ -5,7 +5,11 @@ import 'package:storitter/widgets/password_field.dart';
 import 'package:storitter/widgets/storitter_text_field.dart';
 
 class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  RegisterScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -48,21 +52,25 @@ class RegisterScreen extends StatelessWidget {
                 const SizedBox(
                   height: 32,
                 ),
-                const StoritterTextField(
+                StoritterTextField(
+                  controller: _nameController,
                   label: "Name",
                   icon: Icons.account_box,
                 ),
                 const SizedBox(
                   height: 16,
                 ),
-                const StoritterTextField(
+                StoritterTextField(
+                  controller: _emailController,
                   label: "Email",
                   icon: Icons.email,
                 ),
                 const SizedBox(
                   height: 16,
                 ),
-                const PasswordField(),
+                PasswordField(
+                  controller: _passwordController,
+                ),
                 const SizedBox(
                   height: 24,
                 ),

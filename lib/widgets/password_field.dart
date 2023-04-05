@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class PasswordField extends StatefulWidget {
-  const PasswordField({Key? key}) : super(key: key);
+  final TextEditingController controller;
+
+  const PasswordField({Key? key, required this.controller}) : super(key: key);
 
   @override
   State<PasswordField> createState() => _PasswordFieldState();
@@ -13,6 +15,7 @@ class _PasswordFieldState extends State<PasswordField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: widget.controller,
       onTapOutside: (event) {
         FocusManager.instance.primaryFocus?.unfocus();
       },

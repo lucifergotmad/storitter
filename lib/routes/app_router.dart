@@ -23,12 +23,12 @@ class AppRouter {
             GoRoute(
               name: "login",
               path: "login",
-              builder: (context, state) => const LoginScreen(),
+              builder: (context, state) => LoginScreen(),
             ),
             GoRoute(
               name: "register",
               path: "register",
-              builder: (context, state) => const RegisterScreen(),
+              builder: (context, state) => RegisterScreen(),
             )
           ],
         ),
