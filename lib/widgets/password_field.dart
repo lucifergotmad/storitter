@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:storitter/utils/form_validation.dart';
 
 class PasswordField extends StatefulWidget {
   final TextEditingController controller;
@@ -14,19 +15,20 @@ class _PasswordFieldState extends State<PasswordField> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      validator: validatePassword,
       controller: widget.controller,
       onTapOutside: (event) {
         FocusManager.instance.primaryFocus?.unfocus();
       },
-      obscureText: _shown,
+      obscureText: !_shown,
       decoration: InputDecoration(
         labelText: "Password",
         border: const OutlineInputBorder(),
         prefixIcon: const Icon(Icons.lock),
         suffixIcon: IconButton(
           icon: Icon(
-            _shown ? Icons.visibility : Icons.visibility_off,
+            _shown ? Icons.visibility_off : Icons.visibility,
           ),
           onPressed: () {
             setState(() {
