@@ -16,4 +16,9 @@ class PreferencesHelper {
     final prefs = await sharedPreferences;
     prefs.setString(tokenKey, value);
   }
+
+  void removeToken() async {
+    final prefs = await sharedPreferences;
+    prefs.remove(tokenKey);
+  }
 }

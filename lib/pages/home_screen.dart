@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:storitter/widgets/story_list.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -23,8 +24,14 @@ class HomeScreen extends StatelessWidget {
               ),
               IconButton(
                 enableFeedback: true,
-                icon: const Icon(Icons.add),
-                onPressed: () {},
+                icon: const Icon(
+                  Icons.add,
+                  color: Colors.blue,
+                  size: 28,
+                ),
+                onPressed: () {
+                  context.pushNamed("add");
+                },
               )
             ],
           ),

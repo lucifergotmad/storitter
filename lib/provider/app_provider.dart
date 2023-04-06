@@ -35,4 +35,8 @@ class AppProvider extends ChangeNotifier {
   void saveToken(String value) {
     preferencesHelper.saveToken(value);
   }
+
+  void removeToken() {
+    preferencesHelper.removeToken();
+  }
 }

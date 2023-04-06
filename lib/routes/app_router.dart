@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:storitter/pages/add_story_screen.dart';
 import 'package:storitter/pages/detail_story_screen.dart';
 
 import 'package:storitter/pages/error_screen.dart';
@@ -29,12 +30,17 @@ class AppRouter {
               builder: (context, state) => const HomeScreen(),
               routes: [
                 GoRoute(
+                  name: "add",
+                  path: "add",
+                  builder: (context, state) => const AddStoryScreen(),
+                ),
+                GoRoute(
                   name: "detail",
                   path: "detail/:id",
                   builder: (context, state) => DetailStoryScreen(
                     id: state.params["id"],
                   ),
-                )
+                ),
               ],
             )
           ],
