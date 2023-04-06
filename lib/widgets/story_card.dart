@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:storitter/data/model/story.dart';
+import 'package:storitter/provider/app_provider.dart';
+import 'package:storitter/provider/detail_story_provider.dart';
 import 'package:storitter/utils/date_formatter.dart';
 
 class StoryCard extends StatelessWidget {
@@ -12,7 +16,13 @@ class StoryCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: GestureDetector(
-        onTap: () {},
+        onTap: () {
+          final token = Provider.of<AppProvider>(context, listen: false).token;
+          Provider.of<DetailStoryProvider>(context, listen: false)
+              .fetchDetailStories(token, story.id);
+
+          context.pushNamed("detail", params: {"id": story.id});
+        },
         child: Card(
           elevation: 8,
           borderOnForeground: true,
@@ -26,9 +36,15 @@ class StoryCard extends StatelessWidget {
               SizedBox(
                 height: 200,
                 width: 140,
-                child: Image.network(
-                  story.photoUrl,
-                  fit: BoxFit.cover,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(8),
+                    bottomLeft: Radius.circular(8),
+                  ),
+                  child: Image.network(
+                    story.photoUrl,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               Expanded(

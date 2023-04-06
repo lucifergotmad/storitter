@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:storitter/data/api/api_services.dart';
 import 'package:storitter/data/preferences/preferences_helper.dart';
 import 'package:storitter/provider/app_provider.dart';
+import 'package:storitter/provider/detail_story_provider.dart';
 import 'package:storitter/provider/home_provider.dart';
 import 'package:storitter/provider/login_provider.dart';
 import 'package:storitter/provider/register_provider.dart';
@@ -46,12 +47,16 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => HomeProvider(apiServices: _apiServices),
         ),
+        ChangeNotifierProvider(
+          create: (_) => DetailStoryProvider(apiServices: _apiServices),
+        ),
         Provider(
           create: (_) => AppRouter(appProvider: _appProvider),
         ),
       ],
       child: MaterialApp.router(
         title: 'Story App',
+        debugShowCheckedModeBanner: false,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         routerConfig: AppRouter(appProvider: _appProvider).router,

@@ -1,6 +1,8 @@
 import 'package:go_router/go_router.dart';
+import 'package:storitter/pages/detail_story_screen.dart';
 
 import 'package:storitter/pages/error_screen.dart';
+import 'package:storitter/pages/home_screen.dart';
 import 'package:storitter/pages/login_screen.dart';
 import 'package:storitter/pages/main_screen.dart';
 import 'package:storitter/pages/register_screen.dart';
@@ -20,6 +22,22 @@ class AppRouter {
           name: "main",
           path: "/",
           builder: (context, state) => const MainScreen(),
+          routes: [
+            GoRoute(
+              name: "home",
+              path: "story",
+              builder: (context, state) => const HomeScreen(),
+              routes: [
+                GoRoute(
+                  name: "detail",
+                  path: "detail/:id",
+                  builder: (context, state) => DetailStoryScreen(
+                    id: state.params["id"],
+                  ),
+                )
+              ],
+            )
+          ],
         ),
         GoRoute(
           name: "login",
@@ -44,7 +62,11 @@ class AppRouter {
           }
         }
 
-        return "/";
+        if (state.location == "/login") {
+          return "/";
+        }
+
+        return null;
       });
 
   GoRouter get router => _router;

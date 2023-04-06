@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:storitter/data/api/requests/login_request.dart';
 import 'package:storitter/data/api/requests/register_request.dart';
+import 'package:storitter/data/api/responses/get_detail_stories_response.dart';
 import 'package:storitter/data/api/responses/get_stories_response.dart';
 import 'package:storitter/data/api/responses/login_response.dart';
 import 'package:storitter/data/api/responses/register_response.dart';
@@ -50,4 +51,21 @@ class ApiServices {
     }
   }
 
+  Future<GetDetailStoriesResponse> getDetailStories(
+    String token,
+    String id,
+  ) async {
+    final response = await client.get(
+      "$baseUrl/stories/$id",
+      options: Options(
+        headers: {"Authorization": "Bearer $token"},
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      return GetDetailStoriesResponse.fromJson(response.data);
+    } else {
+      throw Exception("Failed to fetch data");
+    }
+  }
 }

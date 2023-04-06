@@ -70,10 +70,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     _nameController.clear();
                     _emailController.clear();
                     _passwordController.clear();
-
-                    if (provider.state == ResultState.success) {
-                      context.go("/login");
-                    }
                   }
 
                   return Form(
@@ -114,7 +110,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       email: _emailController.text,
                                       password: _passwordController.text,
                                     );
-                                    provider.registerUser(request);
+
+                                    Future.microtask(() => provider.registerUser(request));
+
                                   }
                                 : null,
                             autofocus: true,
