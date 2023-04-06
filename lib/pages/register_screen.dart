@@ -106,14 +106,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                            onPressed: () {
-                              final RegisterRequest request = RegisterRequest(
-                                name: _nameController.text,
-                                email: _emailController.text,
-                                password: _passwordController.text,
-                              );
-                              provider.registerUser(request);
-                            },
+                            onPressed: provider.state != ResultState.loading
+                                ? () {
+                                    final RegisterRequest request =
+                                        RegisterRequest(
+                                      name: _nameController.text,
+                                      email: _emailController.text,
+                                      password: _passwordController.text,
+                                    );
+                                    provider.registerUser(request);
+                                  }
+                                : null,
                             autofocus: true,
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 20),

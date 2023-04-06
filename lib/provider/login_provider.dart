@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:storitter/data/api/api_services.dart';
 import 'package:storitter/data/api/requests/login_request.dart';
-import 'package:storitter/data/api/responses/login_response.dart';
-import 'package:storitter/data/preferences/preferences_helper.dart';
+import 'package:storitter/data/model/user.dart';
 import 'package:storitter/data/result_state.dart';
 
 class LoginProvider extends ChangeNotifier {
@@ -10,11 +9,11 @@ class LoginProvider extends ChangeNotifier {
 
   LoginProvider({required this.apiServices});
 
-  late LoginResult _user;
+  late User _user;
   ResultState _state = ResultState.idle;
   late String _message;
 
-  LoginResult get user => _user;
+  User get user => _user;
 
   ResultState get state => _state;
 

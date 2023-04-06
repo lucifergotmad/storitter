@@ -1,8 +1,8 @@
 import 'package:go_router/go_router.dart';
 
 import 'package:storitter/pages/error_screen.dart';
-import 'package:storitter/pages/home_screen.dart';
 import 'package:storitter/pages/login_screen.dart';
+import 'package:storitter/pages/main_screen.dart';
 import 'package:storitter/pages/register_screen.dart';
 import 'package:storitter/provider/app_provider.dart';
 
@@ -17,9 +17,9 @@ class AppRouter {
       debugLogDiagnostics: true,
       routes: [
         GoRoute(
-          name: "home",
+          name: "main",
           path: "/",
-          builder: (context, state) => const HomeScreen(),
+          builder: (context, state) => const MainScreen(),
         ),
         GoRoute(
           name: "login",

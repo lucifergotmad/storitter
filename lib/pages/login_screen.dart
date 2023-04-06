@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:storitter/data/api/requests/login_request.dart';
-import 'package:storitter/data/api/responses/login_response.dart';
+import 'package:storitter/data/model/user.dart';
 import 'package:storitter/data/result_state.dart';
 import 'package:storitter/generated/assets.dart';
 import 'package:storitter/provider/app_provider.dart';
@@ -104,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         password: _passwordController.text,
                                       );
 
-                                      final LoginResult result =
+                                      final User result =
                                           await provider.loginUser(request);
 
                                       appProvider
