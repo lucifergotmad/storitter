@@ -1,5 +1,7 @@
+import 'package:camera/camera.dart';
 import 'package:go_router/go_router.dart';
 import 'package:storitter/pages/add_story_screen.dart';
+import 'package:storitter/pages/camera_screen.dart';
 import 'package:storitter/pages/detail_story_screen.dart';
 
 import 'package:storitter/pages/error_screen.dart';
@@ -30,10 +32,19 @@ class AppRouter {
               builder: (context, state) => const HomeScreen(),
               routes: [
                 GoRoute(
-                  name: "add",
-                  path: "add",
-                  builder: (context, state) => const AddStoryScreen(),
-                ),
+                    name: "add",
+                    path: "add",
+                    builder: (context, state) =>
+                        AddStoryScreen(file: state.extra as XFile?),
+                    routes: [
+                      GoRoute(
+                        name: "camera",
+                        path: "camera",
+                        builder: (context, state) => CameraScreen(
+                          cameras: state.extra as List<CameraDescription>,
+                        ),
+                      ),
+                    ]),
                 GoRoute(
                   name: "detail",
                   path: "detail/:id",
