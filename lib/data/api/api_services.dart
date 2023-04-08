@@ -72,7 +72,11 @@ class ApiServices {
     }
   }
 
-  Future<UploadResponse> uploadStory(File file, String description) async {
+  Future<UploadResponse> uploadStory(
+    String token,
+    File file,
+    String description,
+  ) async {
     final FormData formData = FormData.fromMap({
       "photo": await MultipartFile.fromFile(file.path,
           filename: file.path.split("/").last),
@@ -81,7 +85,10 @@ class ApiServices {
 
     final response = await client.post(
       "$baseUrl/stories",
-      options: Options(contentType: "multipart/form-data"),
+      options: Options(
+        contentType: "multipart/form-data",
+        headers: {"Authorization": "Bearer $token"},
+      ),
       data: formData,
     );
 

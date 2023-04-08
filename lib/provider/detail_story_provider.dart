@@ -20,7 +20,7 @@ class DetailStoryProvider extends ChangeNotifier {
 
   String get message => _message;
 
-  Future<dynamic> fetchDetailStories(String token, String id) async {
+  Future<void> fetchDetailStories(String token, String id) async {
     try {
       _state = ResultState.loading;
       notifyListeners();
@@ -28,17 +28,16 @@ class DetailStoryProvider extends ChangeNotifier {
       final response = await apiServices.getDetailStories(token, id);
       if (response.error) {
         _state = ResultState.noData;
-        notifyListeners();
-        return _message = "No data found";
+        _message = "No data found";
       } else {
         _state = ResultState.hasData;
-        notifyListeners();
-        return _story = response.story;
+        _story = response.story;
       }
+      notifyListeners();
     } catch (e) {
       _state = ResultState.error;
+      _message = 'Error: ($e)';
       notifyListeners();
-      return _message = 'Error: ($e)';
     }
   }
 }

@@ -4,8 +4,10 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:storitter/data/result_state.dart';
 import 'package:storitter/generated/assets.dart';
 import 'package:storitter/provider/add_story_provider.dart';
+import 'package:storitter/provider/app_provider.dart';
 import 'package:storitter/widgets/storitter_text_field.dart';
 
 class AddStoryScreen extends StatefulWidget {
@@ -41,20 +43,22 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                   child: SizedBox(
                     height: 400,
                     width: double.infinity,
-                    child: context.watch<AddStoryProvider>().imagePath == null
+                    child: context
+                        .watch<AddStoryProvider>()
+                        .imagePath == null
                         ? Image.asset(
-                            Assets.imagesPreviewPlaceholder,
-                            fit: BoxFit.cover,
-                          )
+                      Assets.imagesPreviewPlaceholder,
+                      fit: BoxFit.cover,
+                    )
                         : Image.file(
-                            File(
-                              context
-                                  .read<AddStoryProvider>()
-                                  .imagePath
-                                  .toString(),
-                            ),
-                            fit: BoxFit.cover,
-                          ),
+                      File(
+                        context
+                            .read<AddStoryProvider>()
+                            .imagePath
+                            .toString(),
+                      ),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -65,7 +69,8 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                   children: [
                     Text(
                       "*Long pressed the image to open the camera",
-                      style: Theme.of(context)
+                      style: Theme
+                          .of(context)
                           .textTheme
                           .bodySmall
                           ?.copyWith(fontStyle: FontStyle.italic),
@@ -77,7 +82,11 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                 ),
                 Text(
                   "Description",
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(
                       fontWeight: FontWeight.bold, color: Colors.black54),
                 ),
                 const SizedBox(
@@ -92,10 +101,16 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                   height: 24,
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: context
+                      .watch<AddStoryProvider>()
+                      .state ==
+                      ResultState.loading
+                      ? null
+                      : () => _onUpload(),
                   child: Text(
                     "Upload",
-                    style: Theme.of(context)
+                    style: Theme
+                        .of(context)
                         .textTheme
                         .labelMedium
                         ?.copyWith(color: Colors.white),
@@ -109,6 +124,30 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
     );
   }
 
+  void _onUpload() {
+    final token = Provider
+        .of<AppProvider>(context, listen: false)
+        .token;
+
+    final provider = context.read<AddStoryProvider>();
+
+    if (provider.imageFile == null ||
+        provider.imagePath == null ||
+        _descriptionController.text.isEmpty) return;
+
+    Future.microtask(() {
+      provider
+        ..uploadStory(
+          token,
+          File(provider.imagePath!),
+          _descriptionController.text,
+        )
+        ..resetFile();
+
+      context.pop();
+    });
+  }
+
   _onCustomCameraView() async {
     final provider = context.read<AddStoryProvider>();
 
@@ -117,7 +156,8 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
     if (cameras.isEmpty) return;
 
     final XFile? resultImageFile = await Future.microtask(
-      () async => await context.pushNamed(
+          () async =>
+      await context.pushNamed(
         "camera",
         extra: cameras,
       ),

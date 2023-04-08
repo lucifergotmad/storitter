@@ -38,7 +38,7 @@ class DetailStoryScreen extends StatelessWidget {
                     ),
                     SafeArea(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        padding: const EdgeInsets.all(16),
                         child: Container(
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,

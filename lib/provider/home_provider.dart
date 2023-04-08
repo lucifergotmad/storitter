@@ -20,25 +20,25 @@ class HomeProvider extends ChangeNotifier {
 
   String get message => _message;
 
-  Future<dynamic> fetchAllStory(String token) async {
+  Future<void> fetchAllStory(String token) async {
     try {
       _state = ResultState.loading;
       notifyListeners();
 
       final response = await apiServices.getStories(token);
+      print("isFetched");
       if (response.listStory.isEmpty) {
         _state = ResultState.noData;
-        notifyListeners();
-        return _message = "Data not found!";
+        _message = "Data not found!";
       } else {
         _state = ResultState.hasData;
-        notifyListeners();
-        return _listStory = response.listStory;
+        _listStory = response.listStory;
       }
+      notifyListeners();
     } catch (e) {
       _state = ResultState.error;
+      _message = 'Error: ($e)';
       notifyListeners();
-      return _message = 'Error: ($e)';
     }
   }
 }

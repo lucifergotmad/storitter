@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
           create: (_) => DetailStoryProvider(apiServices: _apiServices),
         ),
         ChangeNotifierProvider(
-          create: (_) => AddStoryProvider(),
+          create: (_) => AddStoryProvider(apiServices: _apiServices),
         ),
         Provider(
           create: (_) => AppRouter(appProvider: _appProvider),

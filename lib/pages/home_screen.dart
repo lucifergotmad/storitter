@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Good Morning",
+                "Hello Worlds.",
                 style: Theme.of(context)
                     .textTheme
                     .headlineMedium
