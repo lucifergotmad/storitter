@@ -40,17 +40,19 @@ class AppRouter {
                       GoRoute(
                         name: "camera",
                         path: "camera",
-                        builder: (context, state) => CameraScreen(
-                          cameras: state.extra as List<CameraDescription>,
-                        ),
+                        builder: (context, state) =>
+                            CameraScreen(
+                              cameras: state.extra as List<CameraDescription>,
+                            ),
                       ),
                     ]),
                 GoRoute(
                   name: "detail",
                   path: "detail/:id",
-                  builder: (context, state) => DetailStoryScreen(
-                    id: state.params["id"],
-                  ),
+                  builder: (context, state) =>
+                      DetailStoryScreen(
+                        id: state.params["id"],
+                      ),
                 ),
               ],
             )
@@ -70,6 +72,7 @@ class AppRouter {
       errorBuilder: (context, state) => const ErrorScreen(),
       redirect: (context, state) {
         final isLoggedIn = appProvider.isLoggedIn;
+        final isUploaded = appProvider.isUploaded;
 
         if (!isLoggedIn) {
           if (state.location == "/login") {

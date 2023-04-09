@@ -10,7 +10,11 @@ class AppProvider extends ChangeNotifier {
 
   bool _isLoggedIn = false;
 
+  bool _isUploaded = false;
+
   bool get isLoggedIn => _isLoggedIn;
+
+  bool get isUploaded => _isUploaded;
 
   String _token = "";
 
@@ -23,6 +27,11 @@ class AppProvider extends ChangeNotifier {
       _isLoggedIn = true;
     }
 
+    notifyListeners();
+  }
+
+  void setIsUpload(bool value) {
+    _isUploaded = value;
     notifyListeners();
   }
 

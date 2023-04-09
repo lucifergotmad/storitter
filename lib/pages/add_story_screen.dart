@@ -43,22 +43,20 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                   child: SizedBox(
                     height: 400,
                     width: double.infinity,
-                    child: context
-                        .watch<AddStoryProvider>()
-                        .imagePath == null
+                    child: context.watch<AddStoryProvider>().imagePath == null
                         ? Image.asset(
-                      Assets.imagesPreviewPlaceholder,
-                      fit: BoxFit.cover,
-                    )
+                            Assets.imagesPreviewPlaceholder,
+                            fit: BoxFit.cover,
+                          )
                         : Image.file(
-                      File(
-                        context
-                            .read<AddStoryProvider>()
-                            .imagePath
-                            .toString(),
-                      ),
-                      fit: BoxFit.cover,
-                    ),
+                            File(
+                              context
+                                  .read<AddStoryProvider>()
+                                  .imagePath
+                                  .toString(),
+                            ),
+                            fit: BoxFit.cover,
+                          ),
                   ),
                 ),
                 const SizedBox(
@@ -69,8 +67,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                   children: [
                     Text(
                       "*Long pressed the image to open the camera",
-                      style: Theme
-                          .of(context)
+                      style: Theme.of(context)
                           .textTheme
                           .bodySmall
                           ?.copyWith(fontStyle: FontStyle.italic),
@@ -82,11 +79,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                 ),
                 Text(
                   "Description",
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .titleMedium
-                      ?.copyWith(
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold, color: Colors.black54),
                 ),
                 const SizedBox(
@@ -101,16 +94,13 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                   height: 24,
                 ),
                 ElevatedButton(
-                  onPressed: context
-                      .watch<AddStoryProvider>()
-                      .state ==
-                      ResultState.loading
+                  onPressed: context.watch<AddStoryProvider>().state ==
+                          ResultState.loading
                       ? null
                       : () => _onUpload(),
                   child: Text(
                     "Upload",
-                    style: Theme
-                        .of(context)
+                    style: Theme.of(context)
                         .textTheme
                         .labelMedium
                         ?.copyWith(color: Colors.white),
@@ -125,12 +115,9 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
   }
 
   void _onUpload() {
-    final token = Provider
-        .of<AppProvider>(context, listen: false)
-        .token;
+    final token = Provider.of<AppProvider>(context, listen: false).token;
 
     final provider = context.read<AddStoryProvider>();
-
     if (provider.imageFile == null ||
         provider.imagePath == null ||
         _descriptionController.text.isEmpty) return;
@@ -156,8 +143,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
     if (cameras.isEmpty) return;
 
     final XFile? resultImageFile = await Future.microtask(
-          () async =>
-      await context.pushNamed(
+      () async => await context.pushNamed(
         "camera",
         extra: cameras,
       ),

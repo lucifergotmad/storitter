@@ -15,7 +15,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
-    print("isRerender");
     final token = context.read<AppProvider>().token;
     final provider = context.read<HomeProvider>();
     Future.microtask(() => provider.fetchAllStory(token));
