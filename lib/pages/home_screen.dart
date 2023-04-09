@@ -1,9 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:storitter/provider/app_provider.dart';
+import 'package:storitter/provider/home_provider.dart';
 import 'package:storitter/widgets/story_list.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    print("isRerender");
+    final token = context.read<AppProvider>().token;
+    final provider = context.read<HomeProvider>();
+    Future.microtask(() => provider.fetchAllStory(token));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

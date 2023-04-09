@@ -143,9 +143,9 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
           _descriptionController.text,
         )
         ..resetFile();
-
-      context.pop();
     });
+
+    context.pop();
   }
 
   _onCustomCameraView() async {

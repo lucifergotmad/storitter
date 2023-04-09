@@ -26,7 +26,6 @@ class HomeProvider extends ChangeNotifier {
       notifyListeners();
 
       final response = await apiServices.getStories(token);
-      print("isFetched");
       if (response.listStory.isEmpty) {
         _state = ResultState.noData;
         _message = "Data not found!";
