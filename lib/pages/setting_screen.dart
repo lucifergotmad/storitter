@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storitter/provider/app_provider.dart';
+import 'package:storitter/shared/locale.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({Key? key}) : super(key: key);
@@ -19,7 +20,7 @@ class SettingScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
           child: Text(
-            "Log Out",
+            AppLocalizations.of(context)!.logout,
             style: Theme.of(context)
                 .textTheme
                 .labelMedium

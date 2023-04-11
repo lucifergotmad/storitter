@@ -5,6 +5,7 @@ import 'package:storitter/data/api/requests/register_request.dart';
 import 'package:storitter/data/result_state.dart';
 import 'package:storitter/generated/assets.dart';
 import 'package:storitter/provider/register_provider.dart';
+import 'package:storitter/shared/locale.dart';
 import 'package:storitter/widgets/password_field.dart';
 import 'package:storitter/widgets/storitter_text_field.dart';
 
@@ -45,7 +46,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   height: 16,
                 ),
                 Text(
-                  "Register",
+                  AppLocalizations.of(context)!.register,
                   style: Theme.of(context)
                       .textTheme
                       .displaySmall
@@ -55,7 +56,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   height: 8,
                 ),
                 Text(
-                  "Ready to share your story?",
+                  AppLocalizations.of(context)!.authSubTitle,
                   style: Theme.of(context)
                       .textTheme
                       .bodyLarge
@@ -79,7 +80,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       children: [
                         StoritterTextField(
                           controller: _nameController,
-                          label: "Name",
+                          label: AppLocalizations.of(context)!.name,
                           icon: Icons.account_box,
                         ),
                         const SizedBox(
@@ -87,7 +88,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         StoritterTextField.email(
                           controller: _emailController,
-                          label: "Email",
+                          label: AppLocalizations.of(context)!.email,
                           icon: Icons.email,
                         ),
                         const SizedBox(
@@ -111,15 +112,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       password: _passwordController.text,
                                     );
 
-                                    Future.microtask(() => provider.registerUser(request));
-
+                                    Future.microtask(
+                                        () => provider.registerUser(request));
                                   }
                                 : null,
                             autofocus: true,
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 20),
                               child: Text(
-                                "Register",
+                                AppLocalizations.of(context)!.register,
                                 style: Theme.of(context)
                                     .textTheme
                                     .labelLarge
@@ -142,7 +143,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Column(
                       children: [
                         Text(
-                          "Already have an account?",
+                          AppLocalizations.of(context)!.registerFooter,
                           style: Theme.of(context)
                               .textTheme
                               .bodySmall
@@ -153,7 +154,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             context.go("/login");
                           },
                           child: Text(
-                            "Login",
+                            AppLocalizations.of(context)!.login,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium

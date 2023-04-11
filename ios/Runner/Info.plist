@@ -6,6 +6,11 @@
     <string>Buka privasi ini untuk akses kamera.</string>
     <key>NSMicrophoneUsageDescription</key>
     <string>Buka privasi ini untuk akses mikrofon.</string>
+    <key>CFBundleLocalizations</key>
+      <array>
+        <string>id</string>
+        <string>en</string>
+      </array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>

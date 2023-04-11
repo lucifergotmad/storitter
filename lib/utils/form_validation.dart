@@ -20,6 +20,6 @@ String? validatePassword(String? value) {
   final regex = RegExp(pattern);
 
   return value!.isNotEmpty && !regex.hasMatch(value)
-      ? "Password must contains at least 8 characters"
+      ? "Password must contains at least 8 characters, 1 uppercase, 1 lowercase"
       : null;
 }

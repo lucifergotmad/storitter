@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:storitter/provider/app_provider.dart';
 import 'package:storitter/provider/home_provider.dart';
+import 'package:storitter/shared/locale.dart';
 import 'package:storitter/widgets/story_list.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -32,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Hello Worlds.",
+                AppLocalizations.of(context)!.homeTitle,
                 style: Theme.of(context)
                     .textTheme
                     .headlineMedium
@@ -55,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
             height: 8,
           ),
           Text(
-            "Check out people's stories around the worlds!",
+            AppLocalizations.of(context)!.homeSubtitle,
             style: Theme.of(context).textTheme.bodySmall,
           ),
           const SizedBox(

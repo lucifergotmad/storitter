@@ -7,6 +7,7 @@ import 'package:storitter/data/result_state.dart';
 import 'package:storitter/generated/assets.dart';
 import 'package:storitter/provider/app_provider.dart';
 import 'package:storitter/provider/login_provider.dart';
+import 'package:storitter/shared/locale.dart';
 import 'package:storitter/widgets/password_field.dart';
 import 'package:storitter/widgets/storitter_text_field.dart';
 
@@ -18,8 +19,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _emailController = TextEditingController(text: "lucifergotmad@gmail.com");
-  final TextEditingController _passwordController = TextEditingController(text: "Binary1010");
+  final TextEditingController _emailController =
+      TextEditingController(text: "lucifergotmad@gmail.com");
+  final TextEditingController _passwordController =
+      TextEditingController(text: "Binary1010");
 
   final _formKey = GlobalKey<FormState>();
 
@@ -48,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 16,
                 ),
                 Text(
-                  "Login",
+                  AppLocalizations.of(context)!.login,
                   style: Theme.of(context)
                       .textTheme
                       .displaySmall
@@ -58,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 8,
                 ),
                 Text(
-                  "Ready to share your story?",
+                  AppLocalizations.of(context)!.authSubTitle,
                   style: Theme.of(context)
                       .textTheme
                       .bodyLarge
@@ -82,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: [
                           StoritterTextField.email(
                             controller: _emailController,
-                            label: "Email",
+                            label: AppLocalizations.of(context)!.email,
                             icon: Icons.email,
                           ),
                           const SizedBox(
@@ -117,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 20),
                                 child: Text(
-                                  "Login",
+                                  AppLocalizations.of(context)!.login,
                                   style: Theme.of(context)
                                       .textTheme
                                       .labelLarge
@@ -141,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Column(
                       children: [
                         Text(
-                          "Didn't have an account?",
+                          AppLocalizations.of(context)!.loginFooter,
                           style: Theme.of(context)
                               .textTheme
                               .bodySmall
@@ -152,7 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             context.go("/register");
                           },
                           child: Text(
-                            "Register",
+                            AppLocalizations.of(context)!.register,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium

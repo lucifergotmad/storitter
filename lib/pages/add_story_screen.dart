@@ -9,6 +9,7 @@ import 'package:storitter/generated/assets.dart';
 import 'package:storitter/provider/add_story_provider.dart';
 import 'package:storitter/provider/app_provider.dart';
 import 'package:storitter/provider/home_provider.dart';
+import 'package:storitter/shared/locale.dart';
 import 'package:storitter/widgets/storitter_text_field.dart';
 
 class AddStoryScreen extends StatefulWidget {
@@ -67,7 +68,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "*Long pressed the image to open the camera",
+                      AppLocalizations.of(context)!.cameraHint,
                       style: Theme.of(context)
                           .textTheme
                           .bodySmall
@@ -79,7 +80,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                   height: 32,
                 ),
                 Text(
-                  "Description",
+                  AppLocalizations.of(context)!.description,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold, color: Colors.black54),
                 ),
@@ -100,7 +101,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                       ? null
                       : () => _onUpload(),
                   child: Text(
-                    "Upload",
+                    AppLocalizations.of(context)!.upload,
                     style: Theme.of(context)
                         .textTheme
                         .labelMedium

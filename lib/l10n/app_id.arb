@@ -1,4 +1,20 @@
 {
-  "titleAppBar": "Storitter",
-  "body": "Hello World"
+  "homeTitle": "Halo Dunia",
+  "homeSubtitle": "Lihat cerita dari orang di seluruh penjuru dunia!",
+  "dummyLocationText": "Halaman Lokasi",
+  "dummySavedText": "Halaman Simpan",
+  "logout": "Keluar",
+  "upload": "Unggah",
+  "description": "Deskripsi",
+  "cameraHint": "Tekan dan tahan gambar untuk membuka kamera",
+  "name": "Nama",
+  "email": "Email",
+  "emailError": "Masukkan alamat email yang valid",
+  "password": "Sandi",
+  "passwordError": "Password mesti mengandung 8 karakter, 1 huruf besar dan 1 huruf kecil",
+  "register": "Daftar",
+  "login": "Masuk",
+  "authSubTitle": "Siap berbagi ceritamu?",
+  "loginFooter": "Tidak memiliki akun?",
+  "registerFooter": "Sudah memiliki akun?"
 }
