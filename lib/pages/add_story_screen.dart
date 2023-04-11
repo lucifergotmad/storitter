@@ -8,6 +8,7 @@ import 'package:storitter/data/result_state.dart';
 import 'package:storitter/generated/assets.dart';
 import 'package:storitter/provider/add_story_provider.dart';
 import 'package:storitter/provider/app_provider.dart';
+import 'package:storitter/provider/home_provider.dart';
 import 'package:storitter/widgets/storitter_text_field.dart';
 
 class AddStoryScreen extends StatefulWidget {
@@ -114,25 +115,31 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
     );
   }
 
-  void _onUpload() {
+  void _onUpload() async {
     final token = Provider.of<AppProvider>(context, listen: false).token;
 
     final provider = context.read<AddStoryProvider>();
+    final homeProvider = context.read<HomeProvider>();
+
     if (provider.imageFile == null ||
         provider.imagePath == null ||
         _descriptionController.text.isEmpty) return;
 
-    Future.microtask(() {
-      provider
-        ..uploadStory(
-          token,
-          File(provider.imagePath!),
-          _descriptionController.text,
-        )
-        ..resetFile();
-    });
+    final isPosted = await provider.uploadStory(
+      token,
+      File(provider.imagePath!),
+      _descriptionController.text,
+    );
 
-    context.pop();
+    provider.resetFile();
+
+    if (isPosted) {
+      bool isFetched = await homeProvider.fetchAllStory(token);
+      if (isFetched) {
+        if (!mounted) return;
+        context.pop();
+      }
+    }
   }
 
   _onCustomCameraView() async {

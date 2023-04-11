@@ -19,7 +19,7 @@ class AddStoryProvider extends ChangeNotifier {
 
   String get message => _message;
 
-  Future<void> uploadStory(String token, File file, String description) async {
+  Future<bool> uploadStory(String token, File file, String description) async {
     try {
       _state = ResultState.loading;
       notifyListeners();
@@ -27,15 +27,22 @@ class AddStoryProvider extends ChangeNotifier {
       final response = await apiServices.uploadStory(token, file, description);
       if (response.error) {
         _state = ResultState.error;
+        _message = response.message;
+        notifyListeners();
+        return false;
       } else {
         _state = ResultState.success;
+        _message = response.message;
+        notifyListeners();
+        return true;
       }
-      _message = response.message;
-      notifyListeners();
+
     } catch (e) {
       _state = ResultState.error;
       _message = 'Error: ($e)';
       notifyListeners();
+      return false;
+
     }
   }
 

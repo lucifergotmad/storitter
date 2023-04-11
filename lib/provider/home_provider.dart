@@ -20,7 +20,7 @@ class HomeProvider extends ChangeNotifier {
 
   String get message => _message;
 
-  Future<void> fetchAllStory(String token) async {
+  Future<bool> fetchAllStory(String token) async {
     try {
       _state = ResultState.loading;
       notifyListeners();
@@ -34,10 +34,12 @@ class HomeProvider extends ChangeNotifier {
         _listStory = response.listStory;
       }
       notifyListeners();
+      return true;
     } catch (e) {
       _state = ResultState.error;
       _message = 'Error: ($e)';
       notifyListeners();
+      return false;
     }
   }
 }
