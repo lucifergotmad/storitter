@@ -68,6 +68,8 @@ class StoryCard extends StatelessWidget {
                             .textTheme
                             .bodyLarge
                             ?.copyWith(color: Colors.black45),
+                        maxLines: 4,
+                        overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(
                         height: 40,

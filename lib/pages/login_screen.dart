@@ -20,15 +20,44 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController =
-      TextEditingController(text: "lucifergotmad@gmail.com");
+      TextEditingController();
   final TextEditingController _passwordController =
-      TextEditingController(text: "Binary1010");
+      TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+
+  void clearForm() {
+    _emailController.clear();
+    _passwordController.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
     final AppProvider appProvider = Provider.of<AppProvider>(context);
+
+    void loginHandler(User? result) {
+      if (result != null) {
+        appProvider
+          ..saveToken(result.token)
+          ..getToken();
+
+        clearForm();
+
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.loginSuccess),
+          ),
+        );
+      } else {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.loginFailed),
+          ),
+        );
+      }
+    }
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -72,12 +101,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 Consumer<LoginProvider>(
                   builder: (context, provider, _) {
-                    if (provider.state == ResultState.success ||
-                        provider.state == ResultState.error) {
-                      _emailController.clear();
-                      _passwordController.clear();
-                    }
-
                     return Form(
                       autovalidateMode: AutovalidateMode.always,
                       key: _formKey,
@@ -107,12 +130,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                         password: _passwordController.text,
                                       );
 
-                                      final User result =
+                                      final User? result =
                                           await provider.loginUser(request);
 
-                                      appProvider
-                                        ..saveToken(result.token)
-                                        ..getToken();
+                                      loginHandler(result);
                                     }
                                   : null,
                               autofocus: true,

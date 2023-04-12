@@ -14,7 +14,9 @@ import 'package:storitter/provider/app_provider.dart';
 class AppRouter {
   final AppProvider appProvider;
 
-  AppRouter({required this.appProvider});
+  AppRouter({required this.appProvider}) {
+    appProvider.getToken();
+  }
 
   late final GoRouter _router = GoRouter(
       initialLocation: "/",
@@ -40,19 +42,17 @@ class AppRouter {
                       GoRoute(
                         name: "camera",
                         path: "camera",
-                        builder: (context, state) =>
-                            CameraScreen(
-                              cameras: state.extra as List<CameraDescription>,
-                            ),
+                        builder: (context, state) => CameraScreen(
+                          cameras: state.extra as List<CameraDescription>,
+                        ),
                       ),
                     ]),
                 GoRoute(
                   name: "detail",
                   path: "detail/:id",
-                  builder: (context, state) =>
-                      DetailStoryScreen(
-                        id: state.params["id"],
-                      ),
+                  builder: (context, state) => DetailStoryScreen(
+                    id: state.params["id"],
+                  ),
                 ),
               ],
             )
@@ -72,7 +72,6 @@ class AppRouter {
       errorBuilder: (context, state) => const ErrorScreen(),
       redirect: (context, state) {
         final isLoggedIn = appProvider.isLoggedIn;
-        final isUploaded = appProvider.isUploaded;
 
         if (!isLoggedIn) {
           if (state.location == "/login") {
@@ -80,13 +79,13 @@ class AppRouter {
           } else {
             return "/register";
           }
+        } else {
+          if (state.location == "/login") {
+            return "/";
+          } else {
+            return null;
+          }
         }
-
-        if (state.location == "/login") {
-          return "/";
-        }
-
-        return null;
       });
 
   GoRouter get router => _router;

@@ -5,6 +5,7 @@
   "dummySavedText": "Halaman Simpan",
   "logout": "Keluar",
   "upload": "Unggah",
+  "uploadSuccess": "Gagal Mengunggah",
   "description": "Deskripsi",
   "cameraHint": "Tekan dan tahan gambar untuk membuka kamera",
   "name": "Nama",
@@ -14,6 +15,8 @@
   "passwordError": "Password mesti mengandung 8 karakter, 1 huruf besar dan 1 huruf kecil",
   "register": "Daftar",
   "login": "Masuk",
+  "loginSuccess": "Masuk Berhasil",
+  "loginFailed": "Masuk Gagal, mohon periksa kembali email dan password",
   "authSubTitle": "Siap berbagi ceritamu?",
   "loginFooter": "Tidak memiliki akun?",
   "registerFooter": "Sudah memiliki akun?"

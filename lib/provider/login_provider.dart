@@ -19,7 +19,7 @@ class LoginProvider extends ChangeNotifier {
 
   String get message => _message;
 
-  Future<dynamic> loginUser(LoginRequest body) async {
+  Future<User?> loginUser(LoginRequest body) async {
     try {
       _state = ResultState.loading;
       notifyListeners();
@@ -36,8 +36,9 @@ class LoginProvider extends ChangeNotifier {
       return _user = response.loginResult;
     } catch (e) {
       _state = ResultState.error;
+      _message = 'Error: ($e)';
       notifyListeners();
-      return _message = 'Error: ($e)';
+      return null;
     }
   }
 }

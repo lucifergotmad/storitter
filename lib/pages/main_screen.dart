@@ -39,7 +39,8 @@ class _MainScreenState extends State<MainScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.map), label: "Location"),
           BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: "Saved"),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Settings"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.settings), label: "Settings"),
         ],
         onTap: (int index) {
           setState(() {

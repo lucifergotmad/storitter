@@ -140,6 +140,13 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
         if (!mounted) return;
         context.pop();
       }
+    } else {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.uploadSuccess),
+        ),
+      );
     }
   }
 
