@@ -4,13 +4,7 @@ import 'package:storitter/data/preferences/preferences_helper.dart';
 class AppProvider extends ChangeNotifier {
   PreferencesHelper preferencesHelper;
 
-  AppProvider({required this.preferencesHelper}) {
-    getToken();
-  }
-
-  bool _isLoggedIn = false;
-
-  bool get isLoggedIn => _isLoggedIn;
+  AppProvider({required this.preferencesHelper});
 
   String _token = "";
 
@@ -18,14 +12,6 @@ class AppProvider extends ChangeNotifier {
 
   Future<void> getToken() async {
     _token = await preferencesHelper.token;
-    notifyListeners();
-
-    if (_token.isEmpty) {
-      _isLoggedIn = false;
-    } else {
-      _isLoggedIn = true;
-    }
-
     notifyListeners();
   }
 

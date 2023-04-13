@@ -15,7 +15,7 @@ class RegisterProvider extends ChangeNotifier {
 
   String get message => _message;
 
-  Future<void> registerUser(RegisterRequest body) async {
+  Future<bool> registerUser(RegisterRequest body) async {
     try {
       _state = ResultState.loading;
       notifyListeners();
@@ -29,10 +29,12 @@ class RegisterProvider extends ChangeNotifier {
       _state = ResultState.success;
       _message = response.message;
       notifyListeners();
+      return true;
     } catch (e) {
       _state = ResultState.error;
-      _message = 'Error: ($e)';
+      _message = "Error ($e)";
       notifyListeners();
+      return false;
     }
   }
 }

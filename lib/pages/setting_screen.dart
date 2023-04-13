@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:storitter/provider/app_provider.dart';
 import 'package:storitter/shared/locale.dart';
@@ -16,6 +17,8 @@ class SettingScreen extends StatelessWidget {
           provider
             ..removeToken()
             ..getToken();
+
+          context.goNamed("login");
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),

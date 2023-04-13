@@ -17,8 +17,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     final token = context.read<AppProvider>().token;
-    final provider = context.read<HomeProvider>();
-    Future.microtask(() => provider.fetchAllStory(token));
+    if (token.isNotEmpty) {
+      final provider = context.read<HomeProvider>();
+      Future.microtask(() => provider.fetchAllStory(token));
+    }
+
     super.initState();
   }
 

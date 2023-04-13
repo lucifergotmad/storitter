@@ -13,6 +13,8 @@
   "password": "Password",
   "passwordError": "Password must contains at least 8 characters, 1 uppercase, 1 lowercase",
   "register": "Register",
+  "registerSuccess": "Register Succeeded",
+  "registerFailed": "Register Failed, email already in used",
   "login": "Login",
   "loginSuccess": "Login Succeeded",
   "loginFailed": "Login Failed, please kindly check your email and password",

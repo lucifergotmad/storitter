@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:storitter/data/result_state.dart';
 import 'package:storitter/provider/detail_story_provider.dart';
@@ -21,98 +20,60 @@ class DetailStoryScreen extends StatelessWidget {
             );
           }
           if (provider.state == ResultState.hasData) {
-            return Stack(
-              children: [
-                ListView(
-                  children: [
-                    SizedBox(
-                      height: 400,
-                      width: double.infinity,
-                      child: Stack(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: NetworkImage(provider.story.photoUrl),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ],
+            return NestedScrollView(
+              headerSliverBuilder: (context, isScrolled) {
+                return [
+                  SliverAppBar(
+                    expandedHeight: 300,
+                    pinned: true,
+                    flexibleSpace: FlexibleSpaceBar(
+                      background: Image.network(
+                        provider.story.photoUrl,
+                        fit: BoxFit.cover,
                       ),
                     ),
-                    const SizedBox(
-                      height: 56,
-                    ),
-                    Flexible(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              provider.story.name,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineMedium
-                                  ?.copyWith(
-                                      color: Colors.black87, fontSize: 40),
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            Text(
-                              provider.story.description,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(fontSize: 16),
-                            ),
-                            SafeArea(
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 16),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      formatDate(
-                                          provider.story.createdAt.toString()),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelLarge,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white.withOpacity(0.3),
-                      ),
-                      child: IconButton(
-                        onPressed: () {
-                          context.pop();
-                        },
-                        icon: const Icon(
-                          Icons.keyboard_backspace,
-                          size: 28,
-                        ),
-                      ),
-                    ),
+                  )
+                ];
+              },
+              body: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 32,
                   ),
-                )
-              ],
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        provider.story.name,
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium
+                            ?.copyWith(color: Colors.black87, fontSize: 40),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        provider.story.description,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall
+                            ?.copyWith(fontSize: 16),
+                      ),
+                      const SizedBox(
+                        height: 32,
+                      ),
+                      Text(
+                        formatDate(provider.story.createdAt.toString()),
+                        style: Theme.of(context).textTheme.labelLarge,
+                      )
+                    ],
+                  ),
+                ),
+              ),
             );
           }
 

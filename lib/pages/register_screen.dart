@@ -23,8 +23,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
+  void clearForm() {
+    _nameController.clear();
+    _emailController.clear();
+    _passwordController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
+    void registerHandler(bool result) {
+      if (result) {
+        clearForm();
+
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.loginSuccess),
+          ),
+        );
+      } else {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.loginFailed),
+          ),
+        );
+      }
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: SafeArea(
@@ -104,7 +130,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: provider.state != ResultState.loading
-                                ? () {
+                                ? () async {
                                     final RegisterRequest request =
                                         RegisterRequest(
                                       name: _nameController.text,
@@ -112,8 +138,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       password: _passwordController.text,
                                     );
 
-                                    Future.microtask(
-                                        () => provider.registerUser(request));
+                                    final bool result =
+                                        await provider.registerUser(request);
+
+                                    registerHandler(result);
                                   }
                                 : null,
                             autofocus: true,
