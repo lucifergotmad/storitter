@@ -17,9 +17,7 @@ import 'package:storitter/provider/app_provider.dart';
 class AppRouter {
   final AppProvider appProvider;
 
-  AppRouter({required this.appProvider}) {
-    appProvider.getToken();
-  }
+  AppRouter({required this.appProvider});
 
   late final GoRouter _router = GoRouter(
       initialLocation: "/",
@@ -57,23 +55,23 @@ class AppRouter {
                     id: state.params["id"],
                   ),
                 ),
+                GoRoute(
+                  name: "maps",
+                  path: "maps",
+                  builder: (context, state) => const LocationScreen(),
+                ),
+                GoRoute(
+                  name: "saved",
+                  path: "saved",
+                  builder: (context, state) => const SavedScreen(),
+                ),
+                GoRoute(
+                  name: "settings",
+                  path: "settings",
+                  builder: (context, state) => const SettingScreen(),
+                )
               ],
             ),
-            GoRoute(
-              name: "maps",
-              path: "maps",
-              builder: (context, state) => const LocationScreen(),
-            ),
-            GoRoute(
-              name: "saved",
-              path: "saved",
-              builder: (context, state) => const SavedScreen(),
-            ),
-            GoRoute(
-              name: "settings",
-              path: "settings",
-              builder: (context, state) => const SettingScreen(),
-            )
           ],
         ),
         GoRoute(
@@ -100,9 +98,13 @@ class AppRouter {
 
         const rootLoc = "/";
 
-        if (isLoggedIn && (loggingIn || creatingAccount)) return rootLoc;
-        if (!isLoggedIn && !loggingIn && !creatingAccount) return loginLoc;
+        if (isLoggedIn && (loggingIn || creatingAccount)) {
+          return rootLoc;
+        }
 
+        if (!isLoggedIn && !loggingIn && !creatingAccount) {
+          return loginLoc;
+        }
 
         return null;
       });

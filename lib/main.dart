@@ -14,48 +14,54 @@ import 'package:storitter/routes/app_router.dart';
 import 'package:storitter/shared/locale.dart';
 import 'package:storitter/shared/theme.dart';
 
-final ApiServices _apiServices = ApiServices(
-  client: Dio(),
-);
-
-final PreferencesHelper _preferencesHelper = PreferencesHelper(
-  sharedPreferences: SharedPreferences.getInstance(),
-);
-
-final AppProvider _appProvider = AppProvider(
-  preferencesHelper: _preferencesHelper,
-);
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+
+  final ApiServices apiServices = ApiServices(
+    client: Dio(),
+  );
+  final PreferencesHelper preferencesHelper = PreferencesHelper(
+    sharedPreferences: await SharedPreferences.getInstance(),
+  );
+  final AppProvider appProvider = AppProvider(
+    preferencesHelper: preferencesHelper,
+  );
+
+  runApp(MyApp(
+    apiServices: apiServices,
+    appProvider: appProvider,
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final ApiServices apiServices;
+  final AppProvider appProvider;
+
+  const MyApp(
+      {super.key, required this.appProvider, required this.apiServices});
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => _appProvider),
+        ChangeNotifierProvider(create: (_) => appProvider),
         ChangeNotifierProvider(
-          create: (_) => LoginProvider(apiServices: _apiServices),
+          create: (_) => LoginProvider(apiServices: apiServices),
         ),
         ChangeNotifierProvider(
-          create: (_) => RegisterProvider(apiServices: _apiServices),
+          create: (_) => RegisterProvider(apiServices: apiServices),
         ),
         ChangeNotifierProvider(
-          create: (_) => HomeProvider(apiServices: _apiServices),
+          create: (_) => HomeProvider(apiServices: apiServices),
         ),
         ChangeNotifierProvider(
-          create: (_) => DetailStoryProvider(apiServices: _apiServices),
+          create: (_) => DetailStoryProvider(apiServices: apiServices),
         ),
         ChangeNotifierProvider(
-          create: (_) => AddStoryProvider(apiServices: _apiServices),
+          create: (_) => AddStoryProvider(apiServices: apiServices),
         ),
         Provider(
-          create: (_) => AppRouter(appProvider: _appProvider),
+          create: (_) => AppRouter(appProvider: appProvider),
         ),
       ],
       child: MaterialApp.router(
@@ -63,7 +69,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        routerConfig: AppRouter(appProvider: _appProvider).router,
+        routerConfig: AppRouter(appProvider: appProvider).router,
         theme: ThemeData(primarySwatch: Colors.blue, textTheme: textTheme),
       ),
     );

@@ -1,24 +1,24 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PreferencesHelper {
-  final Future<SharedPreferences> sharedPreferences;
+  final SharedPreferences sharedPreferences;
 
   PreferencesHelper({required this.sharedPreferences});
 
   static const tokenKey = "ACCESS_TOKEN_KEY";
 
-  Future<String> get token async {
-    final prefs = await sharedPreferences;
+  String get token {
+    final prefs = sharedPreferences;
     return prefs.getString(tokenKey) ?? "";
   }
 
-  void saveToken(String value) async {
-    final prefs = await sharedPreferences;
+  void saveToken(String value) {
+    final prefs = sharedPreferences;
     prefs.setString(tokenKey, value);
   }
 
-  void removeToken() async {
-    final prefs = await sharedPreferences;
+  void removeToken() {
+    final prefs = sharedPreferences;
     prefs.remove(tokenKey);
   }
 }

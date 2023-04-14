@@ -4,14 +4,16 @@ import 'package:storitter/data/preferences/preferences_helper.dart';
 class AppProvider extends ChangeNotifier {
   PreferencesHelper preferencesHelper;
 
-  AppProvider({required this.preferencesHelper});
+  AppProvider({required this.preferencesHelper}) {
+    getToken();
+  }
 
   String _token = "";
 
   String get token => _token;
 
-  Future<void> getToken() async {
-    _token = await preferencesHelper.token;
+  void getToken() {
+    _token = preferencesHelper.token;
     notifyListeners();
   }
 

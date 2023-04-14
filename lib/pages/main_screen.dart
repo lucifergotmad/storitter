@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:storitter/pages/home_screen.dart';
 import 'package:storitter/pages/location_screen.dart';
 import 'package:storitter/pages/saved_screen.dart';
 import 'package:storitter/pages/setting_screen.dart';
-import 'package:storitter/provider/app_provider.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -22,12 +20,6 @@ class _MainScreenState extends State<MainScreen> {
   ];
 
   int _currentIndex = 0;
-
-  @override
-  void initState() {
-    Future.microtask(() => context.read<AppProvider>().getToken());
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
