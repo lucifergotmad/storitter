@@ -39,12 +39,17 @@ class ApiServices {
     }
   }
 
-  Future<GetStoriesResponse> getStories(String token) async {
+  Future<GetStoriesResponse> getStories(String token, int pageItems, int itemSize) async {
     final response = await client.get(
       "$baseUrl/stories",
       options: Options(
         headers: {"Authorization": "Bearer $token"},
       ),
+      queryParameters: {
+        "location": 1,
+        "page": pageItems,
+        "size": itemSize
+      }
     );
 
     if (response.statusCode == 200) {

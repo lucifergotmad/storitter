@@ -20,12 +20,18 @@ class HomeProvider extends ChangeNotifier {
 
   String get message => _message;
 
+  int? pageItems = 1;
+
+  int sizeItems = 10;
+
   Future<bool> fetchAllStory(String token) async {
     try {
-      _state = ResultState.loading;
-      notifyListeners();
+      if(pageItems == 1) {
+        _state = ResultState.loading;
+        notifyListeners();
+      }
 
-      final response = await apiServices.getStories(token);
+      final response = await apiServices.getStories(token, pageItems!, sizeItems);
       if (response.listStory.isEmpty) {
         _state = ResultState.noData;
         _message = "Data not found!";
@@ -33,6 +39,7 @@ class HomeProvider extends ChangeNotifier {
         _state = ResultState.hasData;
         _listStory = response.listStory;
       }
+      pageItems = pageItems! + 1;
       notifyListeners();
       return true;
     } catch (e) {

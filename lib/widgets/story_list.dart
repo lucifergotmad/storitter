@@ -4,8 +4,15 @@ import 'package:storitter/data/result_state.dart';
 import 'package:storitter/provider/home_provider.dart';
 import 'package:storitter/widgets/story_card.dart';
 
-class StoryList extends StatelessWidget {
+class StoryList extends StatefulWidget {
   const StoryList({Key? key}) : super(key: key);
+
+  @override
+  State<StoryList> createState() => _StoryListState();
+}
+
+class _StoryListState extends State<StoryList> {
+  final ScrollController scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +29,7 @@ class StoryList extends StatelessWidget {
       );
     } else if (provider.state == ResultState.hasData) {
       return ListView.builder(
+        controller: scrollController,
         itemBuilder: (context, index) {
           final story = provider.listStory[index];
 
