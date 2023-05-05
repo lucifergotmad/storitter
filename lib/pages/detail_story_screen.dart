@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:storitter/data/result_state.dart';
 import 'package:storitter/provider/detail_story_provider.dart';
 import 'package:storitter/utils/date_formatter.dart';
+import 'package:geocoding/geocoding.dart' as geo;
 
 class DetailStoryScreen extends StatefulWidget {
   final String? id;
@@ -18,6 +19,22 @@ class _DetailStoryScreenState extends State<DetailStoryScreen> {
   late GoogleMapController mapController;
   final Set<Marker> markers = {};
 
+  void defineMarker(LatLng latLng, String street, String address) {
+    final marker = Marker(
+      markerId: const MarkerId("source"),
+      position: latLng,
+      infoWindow: InfoWindow(
+        title: street,
+        snippet: address,
+      ),
+    );
+
+    setState(() {
+      markers.clear();
+      markers.add(marker);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,18 +48,6 @@ class _DetailStoryScreenState extends State<DetailStoryScreen> {
           if (provider.state == ResultState.hasData) {
             final LatLng latLng =
                 LatLng(provider.story.lat, provider.story.lon);
-
-            final marker = Marker(
-              markerId: MarkerId(provider.story.id),
-              position: latLng,
-              onTap: () {
-                mapController.animateCamera(
-                  CameraUpdate.newLatLngZoom(latLng, 18),
-                );
-              },
-            );
-
-            markers.add(marker);
 
             return NestedScrollView(
               headerSliverBuilder: (context, isScrolled) {
@@ -114,7 +119,17 @@ class _DetailStoryScreenState extends State<DetailStoryScreen> {
                             zoom: 18,
                           ),
                           markers: markers,
-                          onMapCreated: (controller) {
+                          onMapCreated: (controller) async {
+                            final info = await geo.placemarkFromCoordinates(
+                                latLng.latitude, latLng.longitude);
+
+                            final place = info.first;
+                            final street = place.street!;
+                            final address =
+                                '${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+
+                            defineMarker(latLng, street, address);
+
                             setState(() {
                               mapController = controller;
                             });
