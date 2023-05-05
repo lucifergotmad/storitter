@@ -32,6 +32,18 @@ class _DetailStoryScreenState extends State<DetailStoryScreen> {
             final LatLng latLng =
                 LatLng(provider.story.lat, provider.story.lon);
 
+            final marker = Marker(
+              markerId: MarkerId(provider.story.id),
+              position: latLng,
+              onTap: () {
+                mapController.animateCamera(
+                  CameraUpdate.newLatLngZoom(latLng, 18),
+                );
+              },
+            );
+
+            markers.add(marker);
+
             return NestedScrollView(
               headerSliverBuilder: (context, isScrolled) {
                 return [
@@ -101,6 +113,7 @@ class _DetailStoryScreenState extends State<DetailStoryScreen> {
                             target: latLng,
                             zoom: 18,
                           ),
+                          markers: markers,
                           onMapCreated: (controller) {
                             setState(() {
                               mapController = controller;
