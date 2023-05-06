@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:storitter/data/api/requests/login_request.dart';
 import 'package:storitter/data/api/requests/register_request.dart';
 import 'package:storitter/data/api/responses/get_detail_stories_response.dart';
@@ -39,17 +40,17 @@ class ApiServices {
     }
   }
 
-  Future<GetStoriesResponse> getStories(String token, int pageItems, int itemSize) async {
+  Future<GetStoriesResponse> getStories(
+    String token,
+    int pageItems,
+    int itemSize,
+  ) async {
     final response = await client.get(
       "$baseUrl/stories",
       options: Options(
         headers: {"Authorization": "Bearer $token"},
       ),
-      queryParameters: {
-        "location": 1,
-        "page": pageItems,
-        "size": itemSize
-      }
+      queryParameters: {"location": 1, "page": pageItems, "size": itemSize},
     );
 
     if (response.statusCode == 200) {
@@ -81,11 +82,17 @@ class ApiServices {
     String token,
     File file,
     String description,
+    LatLng? latLng,
   ) async {
+    print("latLng service $latLng");
     final FormData formData = FormData.fromMap({
-      "photo": await MultipartFile.fromFile(file.path,
-          filename: file.path.split("/").last),
+      "photo": await MultipartFile.fromFile(
+        file.path,
+        filename: file.path.split("/").last,
+      ),
       "description": description,
+      "lat": latLng?.latitude,
+      "lon": latLng?.longitude,
     });
 
     final response = await client.post(

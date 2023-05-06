@@ -23,6 +23,11 @@ class _DetailStoryScreenState extends State<DetailStoryScreen> {
     final marker = Marker(
       markerId: const MarkerId("source"),
       position: latLng,
+      onTap: () {
+        mapController.animateCamera(
+          CameraUpdate.newLatLngZoom(latLng, 18),
+        );
+      },
       infoWindow: InfoWindow(
         title: street,
         snippet: address,
@@ -121,7 +126,9 @@ class _DetailStoryScreenState extends State<DetailStoryScreen> {
                           markers: markers,
                           onMapCreated: (controller) async {
                             final info = await geo.placemarkFromCoordinates(
-                                latLng.latitude, latLng.longitude);
+                              latLng.latitude,
+                              latLng.longitude,
+                            );
 
                             final place = info.first;
                             final street = place.street!;

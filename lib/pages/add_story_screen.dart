@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:storitter/data/result_state.dart';
 import 'package:storitter/generated/assets.dart';
@@ -23,6 +25,8 @@ class AddStoryScreen extends StatefulWidget {
 
 class _AddStoryScreenState extends State<AddStoryScreen> {
   final TextEditingController _descriptionController = TextEditingController();
+  late LatLng latLng;
+  bool _withLocation = false;
 
   @override
   void initState() {
@@ -30,8 +34,41 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
     super.initState();
   }
 
+  void getPermission() async {
+    final Location location = Location();
+    late bool serviceEnabled;
+    late PermissionStatus permissionGranted;
+    late LocationData locationData;
+
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
+        print("Location services is not available");
+        return;
+      }
+    }
+    permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) {
+        print("Location permission is denied");
+        return;
+      }
+    }
+
+    locationData = await location.getLocation();
+    latLng = LatLng(locationData.latitude!, locationData.longitude!);
+
+    print("latLng $latLng");
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (_withLocation) {
+      Future.microtask(() => getPermission());
+    }
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -79,10 +116,31 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                 const SizedBox(
                   height: 32,
                 ),
-                Text(
-                  AppLocalizations.of(context)!.description,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold, color: Colors.black54),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      AppLocalizations.of(context)!.description,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.bold, color: Colors.black54),
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "Location",
+                          style: Theme.of(context).textTheme.labelSmall,
+                        ),
+                        Switch(
+                          value: _withLocation,
+                          onChanged: (bool value) {
+                            setState(() {
+                              _withLocation = value;
+                            });
+                          },
+                        )
+                      ],
+                    ),
+                  ],
                 ),
                 const SizedBox(
                   height: 16,
@@ -130,6 +188,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
       token,
       File(provider.imagePath!),
       _descriptionController.text,
+      latLng
     );
 
     provider.resetFile();
