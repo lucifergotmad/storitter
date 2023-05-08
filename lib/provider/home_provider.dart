@@ -12,7 +12,7 @@ class HomeProvider extends ChangeNotifier {
 
   ResultState get state => _state;
 
-  late List<Story> _listStory;
+  final List<Story> _listStory = [];
 
   List<Story> get listStory => _listStory;
 
@@ -26,20 +26,27 @@ class HomeProvider extends ChangeNotifier {
 
   Future<bool> fetchAllStory(String token) async {
     try {
-      if(pageItems == 1) {
+      if (pageItems == 1) {
         _state = ResultState.loading;
         notifyListeners();
       }
 
-      final response = await apiServices.getStories(token, pageItems!, sizeItems);
+      final response =
+          await apiServices.getStories(token, pageItems!, sizeItems);
+
       if (response.listStory.isEmpty) {
         _state = ResultState.noData;
         _message = "Data not found!";
       } else {
         _state = ResultState.hasData;
-        _listStory = response.listStory;
+        _listStory.addAll(response.listStory);
       }
-      pageItems = pageItems! + 1;
+
+      if (response.listStory.length < sizeItems) {
+        pageItems = null;
+      } else {
+        pageItems = pageItems! + 1;
+      }
       notifyListeners();
       return true;
     } catch (e) {

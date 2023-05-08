@@ -16,13 +16,13 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
+    super.initState();
     final token = context.read<AppProvider>().token;
+
     if (token.isNotEmpty) {
       final provider = context.read<HomeProvider>();
       Future.microtask(() => provider.fetchAllStory(token));
     }
-
-    super.initState();
   }
 
   @override

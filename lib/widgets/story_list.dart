@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storitter/data/result_state.dart';
+import 'package:storitter/provider/app_provider.dart';
 import 'package:storitter/provider/home_provider.dart';
 import 'package:storitter/widgets/story_card.dart';
 
@@ -13,6 +14,34 @@ class StoryList extends StatefulWidget {
 
 class _StoryListState extends State<StoryList> {
   final ScrollController scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    final token = context.read<AppProvider>().token;
+
+    if (token.isNotEmpty) {
+      final provider = context.read<HomeProvider>();
+
+      scrollController.addListener(() {
+        if (scrollController.position.pixels >=
+            scrollController.position.maxScrollExtent) {
+          if (provider.pageItems != null) {
+            provider.fetchAllStory(token);
+          }
+        }
+      });
+
+      Future.microtask(() => provider.fetchAllStory(token));
+    }
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +60,22 @@ class _StoryListState extends State<StoryList> {
       return ListView.builder(
         controller: scrollController,
         itemBuilder: (context, index) {
+          if (index == provider.listStory.length &&  provider.pageItems != null) {
+            return const Center(
+              child: Padding(
+                padding: EdgeInsets.all(8),
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+
           final story = provider.listStory[index];
 
           return StoryCard(
             story: story,
           );
         },
-        itemCount: provider.listStory.length,
+        itemCount: provider.listStory.length + (provider.pageItems != null ? 1 : 0),
       );
     } else {
       return const Center(
