@@ -194,7 +194,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
     provider.resetFile();
 
     if (isPosted) {
-      bool isFetched = await homeProvider.fetchAllStory(token);
+      bool isFetched = await homeProvider.fetchAllStory(token, true);
       if (isFetched) {
         if (!mounted) return;
         context.pop();

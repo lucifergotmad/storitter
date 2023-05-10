@@ -24,11 +24,15 @@ class HomeProvider extends ChangeNotifier {
 
   int sizeItems = 10;
 
-  Future<bool> fetchAllStory(String token) async {
+  Future<bool> fetchAllStory(String token, bool upload) async {
     try {
       if (pageItems == 1) {
         _state = ResultState.loading;
         notifyListeners();
+      }
+
+      if (upload) {
+        pageItems = 1;
       }
 
       final response =
@@ -39,6 +43,11 @@ class HomeProvider extends ChangeNotifier {
         _message = "Data not found!";
       } else {
         _state = ResultState.hasData;
+
+        if (upload) {
+          _listStory.clear();
+        }
+
         _listStory.addAll(response.listStory);
       }
 
@@ -47,6 +56,7 @@ class HomeProvider extends ChangeNotifier {
       } else {
         pageItems = pageItems! + 1;
       }
+
       notifyListeners();
       return true;
     } catch (e) {

@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     if (token.isNotEmpty) {
       final provider = context.read<HomeProvider>();
-      Future.microtask(() => provider.fetchAllStory(token));
+      Future.microtask(() => provider.fetchAllStory(token, false));
     }
   }
 

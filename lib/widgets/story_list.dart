@@ -28,12 +28,12 @@ class _StoryListState extends State<StoryList> {
         if (scrollController.position.pixels >=
             scrollController.position.maxScrollExtent) {
           if (provider.pageItems != null) {
-            provider.fetchAllStory(token);
+            provider.fetchAllStory(token, false);
           }
         }
       });
 
-      Future.microtask(() => provider.fetchAllStory(token));
+      Future.microtask(() => provider.fetchAllStory(token, false));
     }
   }
 
