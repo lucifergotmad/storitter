@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'register_response.g.dart';
+
+@JsonSerializable()
 class RegisterResponse {
   RegisterResponse({
     required this.error,
@@ -7,13 +12,7 @@ class RegisterResponse {
   final bool error;
   final String message;
 
-  factory RegisterResponse.fromJson(Map<String, dynamic> json) => RegisterResponse(
-    error: json["error"],
-    message: json["message"],
-  );
+  factory RegisterResponse.fromJson(Map<String, dynamic> json) => _$RegisterResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => {
-    "error": error,
-    "message": message,
-  };
+  Map<String, dynamic> toJson() => _$RegisterResponseToJson(this);
 }

@@ -1,5 +1,9 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:storitter/data/model/story.dart';
 
+part 'get_detail_stories_response.g.dart';
+
+@JsonSerializable()
 class GetDetailStoriesResponse {
   GetDetailStoriesResponse({
     required this.error,
@@ -11,15 +15,7 @@ class GetDetailStoriesResponse {
   final String message;
   final Story story;
 
-  factory GetDetailStoriesResponse.fromJson(Map<String, dynamic> json) => GetDetailStoriesResponse(
-    error: json["error"],
-    message: json["message"],
-    story: Story.fromJson(json["story"]),
-  );
+  factory GetDetailStoriesResponse.fromJson(Map<String, dynamic> json) => _$GetDetailStoriesResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => {
-    "error": error,
-    "message": message,
-    "story": story.toJson(),
-  };
+  Map<String, dynamic> toJson() => _$GetDetailStoriesResponseToJson(this);
 }

@@ -1,5 +1,9 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:storitter/data/model/user.dart';
 
+part 'login_response.g.dart';
+
+@JsonSerializable()
 class LoginResponse {
   LoginResponse({
     required this.error,
@@ -11,15 +15,7 @@ class LoginResponse {
   final String message;
   final User loginResult;
 
-  factory LoginResponse.fromJson(Map<String, dynamic> json) => LoginResponse(
-        error: json["error"],
-        message: json["message"],
-        loginResult: User.fromJson(json["loginResult"]),
-      );
+  factory LoginResponse.fromJson(Map<String, dynamic> json) => _$LoginResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => {
-        "error": error,
-        "message": message,
-        "loginResult": loginResult.toJson(),
-      };
+  Map<String, dynamic> toJson() => _$LoginResponseToJson(this);
 }
