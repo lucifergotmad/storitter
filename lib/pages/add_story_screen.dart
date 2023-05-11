@@ -25,7 +25,7 @@ class AddStoryScreen extends StatefulWidget {
 
 class _AddStoryScreenState extends State<AddStoryScreen> {
   final TextEditingController _descriptionController = TextEditingController();
-  late LatLng latLng;
+  LatLng? latLng;
   bool _withLocation = false;
 
   @override

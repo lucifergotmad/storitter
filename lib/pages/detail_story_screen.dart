@@ -17,6 +17,7 @@ class DetailStoryScreen extends StatefulWidget {
 
 class _DetailStoryScreenState extends State<DetailStoryScreen> {
   late GoogleMapController mapController;
+   LatLng? latLng;
   final Set<Marker> markers = {};
 
   void defineMarker(LatLng latLng, String street, String address) {
@@ -51,8 +52,12 @@ class _DetailStoryScreenState extends State<DetailStoryScreen> {
             );
           }
           if (provider.state == ResultState.hasData) {
-            final LatLng latLng =
-                LatLng(provider.story.lat, provider.story.lon);
+            if (provider.story.lat != null && provider.story.lon != null) {
+              latLng = LatLng(
+                provider.story.lat!,
+                provider.story.lon!,
+              );
+            }
 
             return NestedScrollView(
               headerSliverBuilder: (context, isScrolled) {
@@ -115,34 +120,37 @@ class _DetailStoryScreenState extends State<DetailStoryScreen> {
                       const SizedBox(
                         height: 32,
                       ),
-                      SizedBox(
-                        width: double.infinity,
-                        height: 300,
-                        child: GoogleMap(
-                          initialCameraPosition: CameraPosition(
-                            target: latLng,
-                            zoom: 18,
-                          ),
-                          markers: markers,
-                          onMapCreated: (controller) async {
-                            final info = await geo.placemarkFromCoordinates(
-                              latLng.latitude,
-                              latLng.longitude,
-                            );
+                      latLng != null
+                          ? SizedBox(
+                              width: double.infinity,
+                              height: 300,
+                              child: GoogleMap(
+                                initialCameraPosition: CameraPosition(
+                                  target: latLng!,
+                                  zoom: 18,
+                                ),
+                                markers: markers,
+                                onMapCreated: (controller) async {
+                                  final info =
+                                      await geo.placemarkFromCoordinates(
+                                    latLng!.latitude,
+                                    latLng!.longitude,
+                                  );
 
-                            final place = info.first;
-                            final street = place.street!;
-                            final address =
-                                '${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+                                  final place = info.first;
+                                  final street = place.street!;
+                                  final address =
+                                      '${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
 
-                            defineMarker(latLng, street, address);
+                                  defineMarker(latLng!, street, address);
 
-                            setState(() {
-                              mapController = controller;
-                            });
-                          },
-                        ),
-                      ),
+                                  setState(() {
+                                    mapController = controller;
+                                  });
+                                },
+                              ),
+                            )
+                          : const Text(""),
                     ],
                   ),
                 ),

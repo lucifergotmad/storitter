@@ -12,8 +12,8 @@ Story _$StoryFromJson(Map<String, dynamic> json) => Story(
       description: json['description'] as String,
       photoUrl: json['photoUrl'] as String,
       createdAt: DateTime.parse(json['createdAt'] as String),
-      lat: (json['lat'] as num).toDouble(),
-      lon: (json['lon'] as num).toDouble(),
+      lat: (json['lat'] as num?)?.toDouble(),
+      lon: (json['lon'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$StoryToJson(Story instance) => <String, dynamic>{
