@@ -17,7 +17,7 @@ class DetailStoryScreen extends StatefulWidget {
 
 class _DetailStoryScreenState extends State<DetailStoryScreen> {
   late GoogleMapController mapController;
-   LatLng? latLng;
+  LatLng? latLng;
   final Set<Marker> markers = {};
 
   void defineMarker(LatLng latLng, String street, String address) {

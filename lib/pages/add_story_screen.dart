@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -13,6 +15,7 @@ import 'package:storitter/provider/app_provider.dart';
 import 'package:storitter/provider/home_provider.dart';
 import 'package:storitter/shared/locale.dart';
 import 'package:storitter/widgets/storitter_text_field.dart';
+import 'package:geocoding/geocoding.dart' as geo;
 
 class AddStoryScreen extends StatefulWidget {
   final XFile? file;
@@ -24,14 +27,38 @@ class AddStoryScreen extends StatefulWidget {
 }
 
 class _AddStoryScreenState extends State<AddStoryScreen> {
+  late GoogleMapController mapController;
   final TextEditingController _descriptionController = TextEditingController();
+  final Set<Marker> markers = {};
   LatLng? latLng;
   bool _withLocation = false;
 
   @override
   void initState() {
     Future.microtask(() => context.read<AddStoryProvider>().resetFile());
+    Future.microtask(() => getPermission());
     super.initState();
+  }
+
+  void defineMarker(LatLng latLng, String street, String address) {
+    final marker = Marker(
+      markerId: const MarkerId("source"),
+      position: latLng,
+      onTap: () {
+        mapController.animateCamera(
+          CameraUpdate.newLatLngZoom(latLng, 18),
+        );
+      },
+      infoWindow: InfoWindow(
+        title: street,
+        snippet: address,
+      ),
+    );
+
+    setState(() {
+      markers.clear();
+      markers.add(marker);
+    });
   }
 
   void getPermission() async {
@@ -58,17 +85,14 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
     }
 
     locationData = await location.getLocation();
-    latLng = LatLng(locationData.latitude!, locationData.longitude!);
-
-    print("latLng $latLng");
+    latLng = LatLng(
+      locationData.latitude!,
+      locationData.longitude!,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_withLocation) {
-      Future.microtask(() => getPermission());
-    }
-
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -113,9 +137,47 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                     )
                   ],
                 ),
-                const SizedBox(
-                  height: 32,
-                ),
+                _withLocation
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 32),
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: 300,
+                          child: GoogleMap(
+                            initialCameraPosition: CameraPosition(
+                              target: latLng!,
+                              zoom: 18,
+                            ),
+                            gestureRecognizers: Set()
+                              ..add(
+                                Factory<PanGestureRecognizer>(
+                                  () => PanGestureRecognizer(),
+                                ),
+                              ),
+                            markers: markers,
+                            onMapCreated: (controller) async {
+                              final info = await geo.placemarkFromCoordinates(
+                                latLng!.latitude,
+                                latLng!.longitude,
+                              );
+
+                              final place = info.first;
+                              final street = place.street!;
+                              final address =
+                                  '${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+
+                              defineMarker(latLng!, street, address);
+
+                              setState(() {
+                                mapController = controller;
+                              });
+                            },
+                          ),
+                        ),
+                      )
+                    : const SizedBox(
+                        height: 32,
+                      ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -188,7 +250,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
       token,
       File(provider.imagePath!),
       _descriptionController.text,
-      latLng
+      latLng,
     );
 
     provider.resetFile();
