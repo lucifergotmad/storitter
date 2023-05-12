@@ -91,6 +91,26 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
     );
   }
 
+  void onLongPressGoogleMap(latLngPressed) async {
+    final info = await geo.placemarkFromCoordinates(
+      latLngPressed!.latitude,
+      latLngPressed!.longitude,
+    );
+
+    final place = info.first;
+    final street = place.street!;
+    final address =
+        '${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+
+    defineMarker(latLngPressed, street, address);
+
+    latLng = latLngPressed;
+
+    mapController.animateCamera(
+      CameraUpdate.newLatLngZoom(latLngPressed, 18),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -155,6 +175,11 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                                 ),
                               ),
                             markers: markers,
+                            onLongPress: (LatLng latLng) {
+                              Future.microtask(
+                                () => onLongPressGoogleMap(latLng),
+                              );
+                            },
                             onMapCreated: (controller) async {
                               final info = await geo.placemarkFromCoordinates(
                                 latLng!.latitude,
@@ -250,7 +275,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
       token,
       File(provider.imagePath!),
       _descriptionController.text,
-      latLng,
+      _withLocation ? latLng : null,
     );
 
     provider.resetFile();
