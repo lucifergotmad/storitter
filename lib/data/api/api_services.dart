@@ -50,7 +50,7 @@ class ApiServices {
       options: Options(
         headers: {"Authorization": "Bearer $token"},
       ),
-      queryParameters: {"page": pageItems, "size": itemSize},
+      queryParameters: {"location": 1, "page": pageItems, "size": itemSize},
     );
 
     if (response.statusCode == 200) {

@@ -129,6 +129,8 @@ class _DetailStoryScreenState extends State<DetailStoryScreen> {
                                   target: latLng!,
                                   zoom: 18,
                                 ),
+                                myLocationEnabled: false,
+                                myLocationButtonEnabled: false,
                                 markers: markers,
                                 onMapCreated: (controller) async {
                                   final info =

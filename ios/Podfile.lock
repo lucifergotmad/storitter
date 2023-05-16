@@ -41,8 +41,8 @@ DEPENDENCIES:
   - google_maps_flutter_ios (from `.symlinks/plugins/google_maps_flutter_ios/ios`)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
   - location (from `.symlinks/plugins/location/ios`)
-  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/ios`)
-  - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/ios`)
+  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
+  - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
 
 SPEC REPOS:
@@ -67,9 +67,9 @@ EXTERNAL SOURCES:
   location:
     :path: ".symlinks/plugins/location/ios"
   path_provider_foundation:
-    :path: ".symlinks/plugins/path_provider_foundation/ios"
+    :path: ".symlinks/plugins/path_provider_foundation/darwin"
   shared_preferences_foundation:
-    :path: ".symlinks/plugins/shared_preferences_foundation/ios"
+    :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
 
@@ -81,7 +81,7 @@ SPEC CHECKSUMS:
   geocoding_ios: a389ea40f6f548de6e63006a2e31bf66ff80769a
   google_maps_flutter_ios: 3e0b99383a8003b8169d06e7e324170bd0424105
   GoogleMaps: 025272d5876d3b32604e5c080dc25eaf68764693
-  integration_test: a1e7d09bd98eca2fc37aefd79d4f41ad37bdbbe5
+  integration_test: 13825b8a9334a850581300559b8839134b124670
   location: 3a2eed4dd2fab25e7b7baf2a9efefe82b512d740
   path_provider_foundation: c68054786f1b4f3343858c1e1d0caaded73f0be9
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
@@ -90,4 +90,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: d39aea45b624e300ecabbcb5bf4af597e0589f7c
 
-COCOAPODS: 1.12.0
+COCOAPODS: 1.12.1
